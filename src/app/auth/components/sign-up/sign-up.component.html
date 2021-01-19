@@ -1,0 +1,36 @@
+<h3>S'enregistrer</h3>
+<mat-card>
+    <form [formGroup]="signupForm" (ngSubmit)="onSubmit()">
+
+        <label>
+            Nom:
+            <input type=" text" formControlName="lastname">
+        </label>
+
+        <label>
+            Prénom:
+            <input type="text" formControlName="firstname">
+        </label>
+
+        <label>
+            Email:
+            <input type="text" formControlName="email">
+        </label>
+
+
+        <label>
+            Identifiant:
+            <input type="text" formControlName="username">
+        </label>
+
+        <label>
+            Mot de passe:
+            <input type="password" formControlName="password">
+        </label>
+
+        <label>
+            Confirmation:
+            <input type="password" formControlName="confirmPassord">
+        </label>
+    </form>
+</mat-card>

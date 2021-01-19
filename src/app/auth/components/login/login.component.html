@@ -1,0 +1,18 @@
+<h3>Login</h3>
+<mat-card>
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+
+        <label>
+            Identifiant:
+            <input type="text" formControlName="username">
+        </label>
+
+        <label>
+            Mot e passe:
+            <input type="password" formControlName="password">
+        </label>
+
+        <button mat-button mat-button-raised type="submit">Se connecter</button>
+
+    </form>
+</mat-card>
