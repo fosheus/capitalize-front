@@ -15,7 +15,7 @@ export class SignUpComponent implements OnInit {
     firstname: new FormControl(''),
     lastname: new FormControl(''),
     email: new FormControl(''),
-    confirmPassord: new FormControl(''),
+    confirmPassword: new FormControl(''),
     username: new FormControl(''),
     password: new FormControl('')
   });
@@ -29,7 +29,7 @@ export class SignUpComponent implements OnInit {
     if (this.signupForm.controls.password.value === this.signupForm.controls.confirmPassword.value) {
       const user = new User(
         this.signupForm.controls.firstname.value,
-        this.signupForm.controls.lastnam.value,
+        this.signupForm.controls.lastname.value,
         this.signupForm.controls.email.value,
         this.signupForm.controls.username.value,
         this.signupForm.controls.password.value

@@ -8,6 +8,8 @@ import { MainModule } from './main/main.module';
 import { SharedModule } from './shared/shared.module';
 import { CoreModule } from './core/core.module';
 import { AuthModule } from './auth/auth.module';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HeaderInterceptor } from './core/interceptors/header-interceptor.interceptor';
 
 @NgModule({
   declarations: [
@@ -22,7 +24,7 @@ import { AuthModule } from './auth/auth.module';
     CoreModule,
     AuthModule
   ],
-  providers: [],
+  providers: [{ provide: HTTP_INTERCEPTORS, useClass: HeaderInterceptor, multi: true }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

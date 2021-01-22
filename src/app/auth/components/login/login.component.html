@@ -8,11 +8,12 @@
         </label>
 
         <label>
-            Mot e passe:
+            Mot de passe:
             <input type="password" formControlName="password">
         </label>
 
         <button mat-button mat-button-raised type="submit">Se connecter</button>
+        <a mat-button mat-raised-button type="button" [routerLink]="['/auth/sign-up']">Créer un compte</a>
 
     </form>
 </mat-card>

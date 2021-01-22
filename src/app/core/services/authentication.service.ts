@@ -14,11 +14,12 @@ export class AuthenticationService {
   constructor(private http: HttpClient, private router: Router) { }
 
   login(model: any) {
-    return this.http.post(`${environment.url}/auth/login`, model);
+    return this.http.post<any>(`${environment.url}/login`, model);
   }
 
   signUp(model: User) {
-    return this.http.post(`${environment.url}/auth/signup`, model);
+    console.log(environment.url);
+    return this.http.post<any>(`${environment.url}/auth/signup`, model);
   }
 
   logout() {
