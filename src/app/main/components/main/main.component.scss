@@ -2,20 +2,23 @@
     display: flex;
     flex-direction: column;
     height: 100vh;
-    width: 80%;
-    margin-left: auto;
-    margin-right: auto;
+    width: 100%;
+   
 }
 
 .footer-header-content {
-    padding: 10px 20px;
     width: 100%;
-    background-color: #516585;
+    background-color: #6d89d6;
+    height: 4rem;
 }
 
 
 .content {
     flex: 1 0 auto;
+    width: 80%;
+    margin-right: auto;
+    margin-left: auto;
+    background-color: #f2f2f2;
 }
 
 footer {

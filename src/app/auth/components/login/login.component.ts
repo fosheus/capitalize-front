@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { tap } from 'rxjs/operators';
-import { AuthenticationService } from 'src/app/core/services/authentication.service';
+import { AuthenticationService } from 'src/app/core/services/authentication/authentication.service';
 
 @Component({
   selector: 'app-login',

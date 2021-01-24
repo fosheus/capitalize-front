@@ -129,5 +129,8 @@
       }
     }
   },
-  "defaultProject": "capitalize-front"
+  "defaultProject": "capitalize-front",
+  "cli": {
+    "analytics": "813fb1f8-94b3-4829-8bc2-d4b5b44fa883"
+  }
 }
