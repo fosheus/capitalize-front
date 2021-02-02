@@ -5,16 +5,18 @@ import { MainRoutingModule } from './main-routing.module';
 import { MainComponent } from './components/main/main.component';
 import { HomeComponent } from './components/home/home.component';
 import { SharedModule } from '../shared/shared.module';
-import { PostDetailComponent } from './components/post-detail/post-detail.component';
-import { PostSummaryComponent } from './components/post-summary/post-summary.component';
+import { PostModule } from '../post/post.module';
+import { PostResumeComponent } from './components/post-resume/post-resume.component';
+import { PostResumeListComponent } from './components/post-resume-list/post-resume-list.component';
 
 
 @NgModule({
-  declarations: [MainComponent, HomeComponent, PostDetailComponent, PostSummaryComponent],
+  declarations: [MainComponent, HomeComponent, PostResumeComponent, PostResumeListComponent],
   imports: [
     CommonModule,
     MainRoutingModule,
-    SharedModule
+    SharedModule,
+    PostModule
   ]
 })
 export class MainModule { }

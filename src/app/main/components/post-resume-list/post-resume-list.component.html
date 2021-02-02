@@ -1,0 +1,5 @@
+<mat-card fxLayout="column">
+    <div *ngFor="let post of posts">
+        <app-post-resume [post]="post" (click)="onClickPost(post)"></app-post-resume>
+    </div>
+</mat-card>

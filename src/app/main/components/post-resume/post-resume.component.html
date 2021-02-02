@@ -1,0 +1,8 @@
+<mat-card fxLayout="column">
+    <div fxLayout="row">
+        <span>{{post.title}}</span>
+        <mat-chip-list fxLayout="row wrap">
+            <mat-chip *ngFor="let tag of post.tags">{{tag.label}}</mat-chip>
+        </mat-chip-list>
+    </div>
+</mat-card>

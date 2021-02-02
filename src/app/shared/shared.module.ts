@@ -6,14 +6,14 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
-
-
+import { MatChipsModule } from '@angular/material/chips';
 
 
 const MATERIAL_MODULES = [
   MatButtonModule,
   MatCardModule,
-  MatIconModule
+  MatIconModule,
+  MatChipsModule
 ]
 
 @NgModule({

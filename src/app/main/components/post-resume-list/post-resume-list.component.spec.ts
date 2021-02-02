@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { PostSummaryComponent } from './post-summary.component';
+import { PostResumeListComponent } from './post-resume-list.component';
 
-describe('PostSummaryComponent', () => {
-  let component: PostSummaryComponent;
-  let fixture: ComponentFixture<PostSummaryComponent>;
+describe('PostResumeListComponent', () => {
+  let component: PostResumeListComponent;
+  let fixture: ComponentFixture<PostResumeListComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ PostSummaryComponent ]
+      declarations: [ PostResumeListComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(PostSummaryComponent);
+    fixture = TestBed.createComponent(PostResumeListComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

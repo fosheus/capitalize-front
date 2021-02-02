@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { Post } from 'src/app/core/models/post.model';
 import { PostService } from 'src/app/core/services/post/post.service';
 
 @Component({
@@ -8,11 +10,16 @@ import { PostService } from 'src/app/core/services/post/post.service';
 })
 export class HomeComponent implements OnInit {
 
-  constructor(private postService : PostService) { }
+
+  public posts: Post[];
+
+  constructor(private postService: PostService, private router: Router) { }
 
   ngOnInit(): void {
+    this.postService.getAllByCriteria([], '', 0).subscribe(posts => this.posts = posts);
   }
 
-  addPost() {}
-
+  addPost() {
+    this.router.navigateByUrl('/post/create');
+  }
 }

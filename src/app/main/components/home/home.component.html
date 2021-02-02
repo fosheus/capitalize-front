@@ -1,7 +1,14 @@
-<div fxLayout="row">
-    <div fxFlexOffset="95">
-        <button mat-fab button color="primary" class="add-button" (click)="addPost()">
-            <mat-icon>add</mat-icon>
-        </button>
-    </div>
+<div fxLayout="column">
+    <mat-card>
+        <h2>Filters</h2>
+        <div fxFlexOffset="90">
+            <button mat-fab button color="primary" class="add-button" (click)="addPost()">
+                <mat-icon>add</mat-icon>
+            </button>
+        </div>
+    </mat-card>
+    <h1>Posts</h1>
+    <app-post-resume-list>
+    </app-post-resume-list>
+
 </div>
