@@ -7,13 +7,17 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatChipsModule } from '@angular/material/chips';
+import { MatTabsModule } from '@angular/material/tabs';
+import { HighlightModule, HIGHLIGHT_OPTIONS } from 'ngx-highlightjs';
+
 
 
 const MATERIAL_MODULES = [
   MatButtonModule,
   MatCardModule,
   MatIconModule,
-  MatChipsModule
+  MatChipsModule,
+  MatTabsModule
 ]
 
 @NgModule({
@@ -24,6 +28,7 @@ const MATERIAL_MODULES = [
     FormsModule,
     HttpClientModule,
     FlexLayoutModule,
+    HighlightModule,
     ...MATERIAL_MODULES
   ],
   exports: [
@@ -32,7 +37,9 @@ const MATERIAL_MODULES = [
     FormsModule,
     HttpClientModule,
     FlexLayoutModule,
+    HighlightModule,
     ...MATERIAL_MODULES
-  ]
+  ],
+  providers: [{ provide: HIGHLIGHT_OPTIONS, useValue: { fullLibraryLoader: () => import('highlight.js') } }]
 })
 export class SharedModule { }

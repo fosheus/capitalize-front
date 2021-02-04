@@ -14,7 +14,7 @@ export class AuthenticationService {
   constructor(private http: HttpClient, private router: Router) { }
 
   login(model: any) {
-    return this.http.post<any>(`${environment.url}/login`, model);
+    return this.http.post<any>(`${environment.url}/login`, model, { observe: 'response' });
   }
 
   signUp(model: User) {

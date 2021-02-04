@@ -10,6 +10,7 @@ import { CoreModule } from './core/core.module';
 import { AuthModule } from './auth/auth.module';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { HeaderInterceptor } from './core/interceptors/header-interceptor.interceptor';
+import { HIGHLIGHT_OPTIONS } from 'ngx-highlightjs';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,7 @@ import { HeaderInterceptor } from './core/interceptors/header-interceptor.interc
     MainModule,
     SharedModule,
     CoreModule,
-    AuthModule
+    AuthModule,
   ],
   providers: [{ provide: HTTP_INTERCEPTORS, useClass: HeaderInterceptor, multi: true }],
   bootstrap: [AppComponent]

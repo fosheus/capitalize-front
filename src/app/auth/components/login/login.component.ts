@@ -23,19 +23,14 @@ export class LoginComponent implements OnInit {
 
   onSubmit() {
     const loginModel = { username: this.loginForm.controls.username.value, password: this.loginForm.controls.password.value };
-    this.authService.login(loginModel).pipe(tap(event => {
-      console.log(event);
-
-      if (event instanceof HttpResponse) {
-        const header = event.headers.get('Authorization');
-        if (header) {
-          const token = header.replace('Bearer ', '');
-          localStorage.setItem('access-token', token);
-        }
+    this.authService.login(loginModel).subscribe(resp => {
+      const keys = resp.headers.keys();
+      const header = resp.headers.get('Authorization');
+      if (header) {
+        const token = header.replace('Bearer ', '');
+        localStorage.setItem('access-token', token);
+        this.router.navigateByUrl('/home');
       }
-    })).subscribe(() => {
-      this.router.navigateByUrl('/home');
     });
-
   }
 }

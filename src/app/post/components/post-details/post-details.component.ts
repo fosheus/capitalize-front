@@ -10,9 +10,9 @@ import { PostService } from 'src/app/core/services/post/post.service';
 })
 export class PostDetailsComponent implements OnInit {
 
-  private state: string;
+  public state: string;
   private postId: number;
-  private post: Post;
+  public post: Post;
 
   constructor(private router: Router, private postService: PostService, private route: ActivatedRoute/*, private userService: UserService*/) { }
 
@@ -23,10 +23,6 @@ export class PostDetailsComponent implements OnInit {
     } else if (state.length > 2 && state[1].path === 'edit') {
       this.state = PostDetailsComponentState.EDIT;
       this.postId = Number.parseInt(state[2].path, 10);
-
-    } else if (state.length > 1) {
-      this.state = PostDetailsComponentState.CONSULT;
-      this.postId = Number.parseInt(state[1].path, 10);
     } else {
       this.postId = NaN;
     }
@@ -42,5 +38,5 @@ export class PostDetailsComponent implements OnInit {
 }
 
 enum PostDetailsComponentState {
-  CREATE = 'CREATE', EDIT = 'EDIT', CONSULT = 'CONSULT'
+  CREATE = 'CREATE', EDIT = 'EDIT'
 }
