@@ -12,25 +12,25 @@ import { AuthenticationService } from 'src/app/core/services/authentication/auth
 })
 export class LoginComponent implements OnInit {
 
+  errorLoggin: boolean;
   loginForm = new FormGroup({
     username: new FormControl(''),
     password: new FormControl('')
   });
   constructor(private authService: AuthenticationService, private router: Router) { }
 
+
   ngOnInit(): void {
+    if (this.authService.isLoggedIn()) {
+      this.router.navigateByUrl('/home');
+    }
   }
 
   onSubmit() {
     const loginModel = { username: this.loginForm.controls.username.value, password: this.loginForm.controls.password.value };
+    this.errorLoggin = false;
     this.authService.login(loginModel).subscribe(resp => {
-      const keys = resp.headers.keys();
-      const header = resp.headers.get('Authorization');
-      if (header) {
-        const token = header.replace('Bearer ', '');
-        localStorage.setItem('access-token', token);
-        this.router.navigateByUrl('/home');
-      }
-    });
+      this.router.navigateByUrl('/home')
+    }, err => this.errorLoggin = true);
   }
 }

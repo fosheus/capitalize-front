@@ -1,6 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { User } from 'src/app/auth/models/user.model';
+import { User } from 'src/app/core/models/user.model';
 import { Post } from 'src/app/core/models/post.model';
 import { environment } from 'src/environments/environment';
 import { CheckValueService } from '../check-value/check-value.service';
@@ -31,5 +31,9 @@ export class PostService {
 
   create(post: Post) {
     return this.http.post<Post>(`${environment.url}/posts`, post);
+  }
+
+  validate(id: number) {
+    return this.http.patch<Post>(`${environment.url}/posts/${id}/validate`, null);
   }
 }

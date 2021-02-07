@@ -1,4 +1,4 @@
-import { User } from "src/app/auth/models/user.model";
+import { User } from "src/app/core/models/user.model";
 import { PostTag } from "./post-tag.model";
 import { PostFile } from "./post-file.model";
 

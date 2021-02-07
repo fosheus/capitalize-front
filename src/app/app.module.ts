@@ -10,7 +10,7 @@ import { CoreModule } from './core/core.module';
 import { AuthModule } from './auth/auth.module';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { HeaderInterceptor } from './core/interceptors/header-interceptor.interceptor';
-import { HIGHLIGHT_OPTIONS } from 'ngx-highlightjs';
+import { LOCALE_ID } from '@angular/core';
 
 @NgModule({
   declarations: [
@@ -25,7 +25,8 @@ import { HIGHLIGHT_OPTIONS } from 'ngx-highlightjs';
     CoreModule,
     AuthModule,
   ],
-  providers: [{ provide: HTTP_INTERCEPTORS, useClass: HeaderInterceptor, multi: true }],
+  providers: [{ provide: HTTP_INTERCEPTORS, useClass: HeaderInterceptor, multi: true }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

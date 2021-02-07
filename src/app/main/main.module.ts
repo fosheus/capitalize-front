@@ -8,10 +8,12 @@ import { SharedModule } from '../shared/shared.module';
 import { PostModule } from '../post/post.module';
 import { PostResumeComponent } from './components/post-resume/post-resume.component';
 import { PostResumeListComponent } from './components/post-resume-list/post-resume-list.component';
+import { PostConsultComponent } from './components/post-consult/post-consult.component';
+import { PostDetailsComponent } from './components/post-details/post-details.component';
 
 
 @NgModule({
-  declarations: [MainComponent, HomeComponent, PostResumeComponent, PostResumeListComponent],
+  declarations: [MainComponent, HomeComponent, PostResumeComponent, PostResumeListComponent, PostDetailsComponent, PostConsultComponent],
   imports: [
     CommonModule,
     MainRoutingModule,

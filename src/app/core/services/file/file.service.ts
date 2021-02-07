@@ -14,15 +14,11 @@ export class FileService {
   }
 
   getOne(fileId: number) {
-    return this.http.get<PostFile>(`${environment.url}/files/${fileId}/text`);
-  }
-
-  async getOneAsync(fileId: number) {
-    return this.http.get<string>(`${environment.url}/files/${fileId}/text`).toPromise();
+    return this.http.get<any>(`${environment.url}/files/${fileId}/text`);
   }
 
   getOneBinary(fileId: number) {
-    return this.http.get<any>(`${environment.url}/files/${fileId}/bi,ary`);
+    return this.http.get(`${environment.url}/files/${fileId}/binary`, { responseType: 'blob' });
   }
 
 }

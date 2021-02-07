@@ -8,8 +8,13 @@ import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatTabsModule } from '@angular/material/tabs';
+import { MatDividerModule } from '@angular/material/divider';
 import { HighlightModule, HIGHLIGHT_OPTIONS } from 'ngx-highlightjs';
+import { LOCALE_ID } from '@angular/core';
+import { registerLocaleData } from '@angular/common';
+import localeFr from '@angular/common/locales/fr';
 
+registerLocaleData(localeFr, 'fr');
 
 
 const MATERIAL_MODULES = [
@@ -17,7 +22,8 @@ const MATERIAL_MODULES = [
   MatCardModule,
   MatIconModule,
   MatChipsModule,
-  MatTabsModule
+  MatTabsModule,
+  MatDividerModule
 ]
 
 @NgModule({
@@ -40,6 +46,6 @@ const MATERIAL_MODULES = [
     HighlightModule,
     ...MATERIAL_MODULES
   ],
-  providers: [{ provide: HIGHLIGHT_OPTIONS, useValue: { fullLibraryLoader: () => import('highlight.js') } }]
+  providers: [{ provide: HIGHLIGHT_OPTIONS, useValue: { fullLibraryLoader: () => import('highlight.js') } }, { provide: LOCALE_ID, useValue: 'fr' }]
 })
 export class SharedModule { }
