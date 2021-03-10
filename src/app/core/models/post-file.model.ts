@@ -4,7 +4,7 @@ export class PostFile {
     public path: string;
     public name: string;
     public type: string;
-    public content: string;
+    public content: string = '';
 
     constructor() {
     }

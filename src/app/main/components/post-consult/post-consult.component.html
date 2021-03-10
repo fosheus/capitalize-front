@@ -3,17 +3,13 @@
         <mat-icon>keyboard_arrow_left</mat-icon>Retour
     </button>
     <ng-container *ngIf="post && me">
-        <button mat-button mat-flat-button class="button-edit"
-            *ngIf="(post && me.id === post.owner.id) || me.profile.label === 'ADMIN' || me.profile.label === 'ARCHITECT'"
-            (click)="editPost()">
+        <button mat-button mat-flat-button class="button-edit" *ngIf="(post && me.id === post.owner.id) || me.profile.label === 'ADMIN' || me.profile.label === 'ARCHITECT'" (click)="editPost()">
             <mat-icon>edit</mat-icon>Editer
         </button>
-        <button mat-button mat-flat-button class="button-validate"
-            *ngIf="me.profile.label === 'ADMIN' || me.profile.label === 'ARCHITECT'" (click)="validatePost()">
+        <button mat-button mat-flat-button class="button-validate" *ngIf="me.profile.label === 'ADMIN' || me.profile.label === 'ARCHITECT'" (click)="validatePost()">
             <mat-icon>check</mat-icon>Valider
         </button>
-        <button mat-button mat-flat-button class="button-delete" *ngIf="me.profile.label === 'ADMIN'"
-            (click)="deletePost()">
+        <button mat-button mat-flat-button class="button-delete" *ngIf="me.profile.label === 'ADMIN'" (click)="deletePost()">
             <mat-icon>delete</mat-icon>Supprimer
         </button>
     </ng-container>
@@ -22,8 +18,7 @@
 </div>
 <div *ngIf="post">
     <section>
-        <div class="user-text">Créé par {{post.owner.username}} le {{post.createdAt | date :'short'
-            :'UTC +1' :'fr'}}
+        <div class="user-text">Créé par {{post.owner.username}} le {{post.createdAt | date :'short' :'UTC +1' :'fr'}}
         </div>
     </section>
     <section fxLayout="row" fxFlexAlign="center" fxLayoutGap="0.5rem">
@@ -52,8 +47,7 @@
                 <code [highlight]="file.content"></code>
             </pre>
                 </div>
-                <button mat-button mat-raised-button *ngIf="file && file.type==='BINARY'" (click)="downloadFile(file)"
-                    class="button-download">
+                <button mat-button mat-raised-button *ngIf="file && file.type==='BINARY'" (click)="downloadFile(file)" class="button-download">
                     Télécharger le fichier <span class="filename">{{file.path}}</span>
                 </button>
             </mat-tab>

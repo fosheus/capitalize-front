@@ -29,7 +29,7 @@ export class PostDetailsComponent implements OnInit {
   });
 
   get files() {
-    return this.postForm.controls['files'];
+    return this.postForm.get('files') as FormArray;
   }
 
   addTabForm = new FormGroup({
@@ -87,12 +87,20 @@ export class PostDetailsComponent implements OnInit {
       const file: PostFile = new PostFile();
       file.path = this.addTabForm.controls['tabName'].value;
       file.type = this.addTabForm.controls['tabType'].value;
-      this.postForm.controls['files'].value.push(file);
+      this.files.push(this.getNewAddedFile(file.path, file.type));
       console.log(file);
     } else {
       console.log("non valid");
     }
 
+  }
+  private getNewAddedFile(path: string, type: string) {
+    return new FormGroup({
+      path: new FormControl(path),
+      type: new FormControl(type),
+      content: new FormControl('')
+
+    })
   }
 
 
