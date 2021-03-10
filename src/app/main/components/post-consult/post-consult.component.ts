@@ -24,7 +24,6 @@ export class PostConsultComponent implements OnInit {
 
   ngOnInit(): void {
 
-
     const postIdStr = this.route.snapshot.paramMap.get('id');
     if (!postIdStr) {
       this.router.navigateByUrl('/home');
@@ -68,7 +67,7 @@ export class PostConsultComponent implements OnInit {
   }
 
   public editPost() {
-
+    this.router.navigateByUrl(`/post/edit/${this.postId}`);
   }
 
   public validatePost() {

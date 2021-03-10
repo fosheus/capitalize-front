@@ -1,1 +1,65 @@
-<h1>{{post.title}}</h1>
+<div class="page">
+    <div class="actions" fxLayout="row" fxLayoutGap="1rem">
+        <button mat-button mat-flat-button class="button-back" (click)="return()">
+        <mat-icon>keyboard_arrow_left</mat-icon>Retour
+    </button>
+        <ng-container *ngIf="post && me">
+            <button mat-button mat-flat-button class="button-save" *ngIf="(post && me.id === post.owner.id) || me.profile.label === 'ADMIN' || me.profile.label === 'ARCHITECT'" (click)="savePost()">
+            <mat-icon>save</mat-icon>Enregistrer
+        </button>
+            <button mat-button mat-flat-button class="button-validate" *ngIf="me.profile.label === 'ADMIN' || me.profile.label === 'ARCHITECT'" (click)="validatePost()">
+            <mat-icon>check</mat-icon>Valider
+        </button>
+            <button mat-button mat-flat-button class="button-delete" *ngIf="me.profile.label === 'ADMIN'" (click)="deletePost()">
+            <mat-icon>delete</mat-icon>Supprimer
+        </button>
+        </ng-container>
+    </div>
+    <div class=" divider">
+    </div>
+    <div *ngIf="post" class="post-form">
+        <div class="user-text" *ngIf="state === 'EDIT'">Créé par {{post.owner.username}} le {{post.createdAt | date :'short' :'UTC +1' :'fr'}}
+        </div>
+        <div fxLayout="row" fxFlexAlign="center" fxLayoutGap="0.5rem">
+            <form [formGroup]="postForm" style="width: 100%;">
+                <mat-form-field>
+                    <mat-label>Titre</mat-label>
+                    <input matInput formControlName="title">
+                </mat-form-field>
+
+
+                <mat-chip-list>
+                    <mat-chip *ngFor="let tag of post.tags">{{tag.label}}</mat-chip>
+                </mat-chip-list>
+
+                <mat-form-field style="width :90%;">
+                    <mat-label>Description</mat-label>
+                    <textarea matInput formControlName="description" style="height: 200px;background-color: #eeeeee; border-radius: 0.5rem;"></textarea>
+                </mat-form-field>
+                <form [formGroup]="addTabForm" (ngSubmit)="addFileTab()">
+                    <h3>Fichiers</h3>
+                    <div fxLayout="column" fxLayoutGap="1rem" style="width: 30%;">
+                        <mat-form-field>
+                            <mat-label>Nom du fichier à ajouter (format /path/to/file.ext)</mat-label>
+                            <input matInput formControlName="tabName">
+                        </mat-form-field>
+                        <mat-button-toggle-group name="fontStyle" aria-label="Font Style" formControlName="tabType" style="width: 190px;">
+                            <mat-button-toggle value="TEXT">Texte</mat-button-toggle>
+                            <mat-button-toggle value="BINARY">Binaire (zip,exe...)</mat-button-toggle>
+                        </mat-button-toggle-group>
+
+                        <button mat-button mat-raised-button type="submit">Ajouter un fichier </button>
+                    </div>
+                </form>
+                <mat-tab-group>
+                    <mat-tab *ngFor="let file of files.value" [label]="file.path ">
+                        <div *ngIf="file && file.type==='TEXT' ">
+                            <textarea></textarea>
+                        </div>
+
+                    </mat-tab>
+                </mat-tab-group>
+            </form>
+        </div>
+    </div>
+</div>

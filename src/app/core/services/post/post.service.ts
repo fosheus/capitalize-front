@@ -36,4 +36,8 @@ export class PostService {
   validate(id: number) {
     return this.http.patch<Post>(`${environment.url}/posts/${id}/validate`, null);
   }
+
+  delete(id: number) {
+    return this.http.delete(`${environment.url}/posts/${id}`);
+  }
 }

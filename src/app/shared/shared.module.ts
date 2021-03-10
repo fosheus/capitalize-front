@@ -9,6 +9,10 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatDividerModule } from '@angular/material/divider';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
+
 import { HighlightModule, HIGHLIGHT_OPTIONS } from 'ngx-highlightjs';
 import { LOCALE_ID } from '@angular/core';
 import { registerLocaleData } from '@angular/common';
@@ -23,7 +27,10 @@ const MATERIAL_MODULES = [
   MatIconModule,
   MatChipsModule,
   MatTabsModule,
-  MatDividerModule
+  MatDividerModule,
+  MatFormFieldModule,
+  MatInputModule,
+  MatButtonToggleModule
 ]
 
 @NgModule({

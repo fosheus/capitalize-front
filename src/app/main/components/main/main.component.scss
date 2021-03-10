@@ -3,7 +3,6 @@
     flex-direction: column;
     height: 100vh;
     width: 100%;
-   
 }
 
 .footer-header-content {
@@ -11,8 +10,9 @@
     background-color: black;
     height: 2rem;
     color: white;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
 }
-
 
 .content {
     flex: 1 0 auto;
@@ -24,4 +24,8 @@
 
 footer {
     flex-shrink: 0;
+}
+
+h2 {
+    margin-left: 2rem;
 }

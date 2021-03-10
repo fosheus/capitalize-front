@@ -1,21 +1,24 @@
-<h3>Login</h3>
-<mat-card>
-    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+<div class="center">
+    <h3>Login</h3>
+    <mat-card style="height: 300px;">
+        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" fxLayout="column" fxLayoutGap="20px">
 
-        <label>
-            Identifiant:
-            <input type="text" formControlName="username">
-        </label>
+            <mat-form-field>
+                <mat-label> Identifiant: </mat-label>
 
-        <label>
-            Mot de passe:
-            <input type="password" formControlName="password">
-        </label>
-        <span *ngIf="errorLoggin" class="errorLoggin">Connexion échouée, vérifiez vos identifiants ou l'accès au
+                <input matInput type="text" formControlName="username">
+            </mat-form-field>
+
+            <mat-form-field>
+                <mat-label> Mot de passe: </mat-label>
+                <input matInput type="password" formControlName="password">
+            </mat-form-field>
+            <span *ngIf="errorLoggin" class="errorLoggin">Connexion échouée, vérifiez vos identifiants ou l'accès au
             serveur.</span>
 
-        <button mat-button mat-button-raised type="submit">Se connecter</button>
-        <a mat-button mat-raised-button type="button" [routerLink]="['/auth/sign-up']">Créer un compte</a>
+            <button mat-button mat-button-raised type="submit">Se connecter</button>
+            <a mat-button mat-raised-button type="button" [routerLink]="['/auth/sign-up']">Créer un compte</a>
 
-    </form>
-</mat-card>
+        </form>
+    </mat-card>
+</div>
