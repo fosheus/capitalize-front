@@ -7,7 +7,7 @@
             <button mat-button mat-flat-button class="button-save" *ngIf="(post && me.id === post.owner.id) || me.profile.label === 'ADMIN' || me.profile.label === 'ARCHITECT'" (click)="savePost()">
             <mat-icon>save</mat-icon>Enregistrer
         </button>
-            <button mat-button mat-flat-button class="button-validate" *ngIf="me.profile.label === 'ADMIN' || me.profile.label === 'ARCHITECT'" (click)="validatePost()">
+            <button mat-button mat-flat-button class="button-validate" *ngIf="me.profile.label === 'ADMIN' || me.profile.label === 'ARCHITECT' && state==='EDIT'" (click)="validatePost()">
             <mat-icon>check</mat-icon>Valider
         </button>
             <button mat-button mat-flat-button class="button-delete" *ngIf="me.profile.label === 'ADMIN'" (click)="deletePost()">
@@ -61,6 +61,10 @@
                             </mat-form-field>
                         </div>
                         <div *ngIf="file.value.type==='BINARY' ">
+                            <div class="form-group">
+                                <label for="file">Choose File</label>
+                                <input type="file" id="file" (change)="handleFileInput($event.target.files,i)">
+                            </div>
 
                         </div>
                     </mat-tab>

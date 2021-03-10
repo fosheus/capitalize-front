@@ -98,9 +98,15 @@ export class PostDetailsComponent implements OnInit {
     return new FormGroup({
       path: new FormControl(path),
       type: new FormControl(type),
-      content: new FormControl('')
+      content: new FormControl(''),
+      binary: new FormControl(null)
 
     })
+  }
+
+  handleFileInput(files: FileList, index: number) {
+    const fileToUpload = files.item(0);
+    this.files.at(index).value.binary = fileToUpload;
   }
 
 
