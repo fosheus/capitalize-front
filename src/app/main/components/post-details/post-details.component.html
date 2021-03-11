@@ -19,51 +19,55 @@
     </div>
     <div *ngIf="post" class="post-form">
         <form [formGroup]="postForm" fxLayout="column" fxFlexAlign="center" fxLayoutGap="1rem">
-            <div class=" user-text " *ngIf="state==='EDIT' ">Créé par {{post.owner.username}} le {{post.createdAt | date :'short' :'UTC +1' :'fr'}}
+            <div class="user-text" *ngIf="state==='EDIT'">Créé par {{post.owner.username}} le {{post.createdAt | date :'short' :'UTC +1' :'fr'}}
             </div>
             <mat-form-field>
                 <mat-label>Titre</mat-label>
                 <input matInput formControlName="title">
             </mat-form-field>
 
+            <mat-form-field>
 
-            <mat-chip-list>
-                <mat-chip *ngFor="let tag of post.tags ">{{tag.label}}</mat-chip>
-            </mat-chip-list>
+                <mat-chip-list #tagChipList formArrayName="tags">
+                    <mat-chip *ngFor="let tag of tags.controls; let i=index" [formGroupName]="i">{{tag.value.label}}
+                        <mat-icon (click)="deleteTag(i)" class="delete-tag">cancel</mat-icon>
+                    </mat-chip>
+                    <input [matChipInputFor]="tagChipList" (matChipInputTokenEnd)="addTag($event)">
+                </mat-chip-list>
+            </mat-form-field>
 
             <mat-form-field class="description-textarea">
                 <mat-label>Description</mat-label>
-                <textarea matInput formControlName="description" [matTextareaAutosize]="true" [matAutosizeMinRows]="10" style="background-color: #eeeeee; border-radius: 0.5rem; "></textarea>
+                <textarea matInput formControlName="description" [matTextareaAutosize]="true" [matAutosizeMinRows]="10" style="background-color: #eeeeee; border-radius: 0.5rem;"></textarea>
             </mat-form-field>
             <form [formGroup]="addTabForm" (ngSubmit)="addFileTab()">
                 <h3>Fichiers</h3>
-                <div fxLayout="column " fxLayoutGap="1rem " style="width: 400px;">
+                <div fxLayout="column" fxLayoutGap="1rem" style="width: 400px;">
                     <mat-form-field>
                         <mat-label>Nom du fichier à ajouter (format /path/to/file.ext)</mat-label>
                         <input matInput formControlName="tabName">
                     </mat-form-field>
-                    <mat-button-toggle-group name="fontStyle " aria-label="Font Style" formControlName="tabType">
+                    <mat-button-toggle-group name="fontStyle" aria-label="Font Style" formControlName="tabType">
                         <mat-button-toggle value="TEXT">Texte</mat-button-toggle>
                         <mat-button-toggle value="BINARY">Binaire (zip,exe...)</mat-button-toggle>
                     </mat-button-toggle-group>
 
-                    <button mat-button mat-raised-button type="submit ">Ajouter un fichier </button>
+                    <button mat-button mat-raised-button type="submit">Ajouter un fichier </button>
                 </div>
             </form>
-            {{postForm.value | json}}
 
             <mat-tab-group formArrayName="files">
                 <ng-container *ngFor="let file of files.controls; let i=index" [formGroupName]="i">
                     <mat-tab [label]="file.value.path">
-                        <div *ngIf="file.value.type==='TEXT' ">
+                        <div *ngIf="file.value.type==='TEXT'">
                             <mat-form-field class="description-textarea">
-                                <textarea matInput formControlName="content" [matTextareaAutosize]="true" [matAutosizeMinRows]="50" style="background-color: #eeeeee; border-radius: 0.5rem; "></textarea>
+                                <textarea matInput formControlName="content" [matTextareaAutosize]="true" [matAutosizeMinRows]="50" style="background-color: #eeeeee; border-radius: 0.5rem;"></textarea>
                             </mat-form-field>
                         </div>
-                        <div *ngIf="file.value.type==='BINARY' ">
+                        <div *ngIf="file.value.type==='BINARY'">
                             <div class="form-group">
                                 <label for="file">Choose File</label>
-                                <input type="file" id="file" (change)="handleFileInput($event.target.files,i)">
+                                <input type="file" id="file" (change)="handleFileInput($any($event.target).files,i)">
                             </div>
 
                         </div>

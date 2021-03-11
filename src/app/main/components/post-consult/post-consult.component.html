@@ -24,9 +24,8 @@
     <section fxLayout="row" fxFlexAlign="center" fxLayoutGap="0.5rem">
         <h1>{{post.title}}</h1>
         <mat-icon class="icon-check" *ngIf="post.validated"> check_circle</mat-icon>
-        <span *ngIf="post.validated && post.validator" class="text-user">{{post.validationDate | date :'short' :'UTC +1'
-            :'fr'
-            }} par {{post.validator.username}} </span>
+        <span *ngIf="post.validated && post.validator" class="text-user">Validé par {{post.validator.username}} le {{post.validationDate | date :'short' :'UTC +1'
+            :'fr'}} </span>
     </section>
     <section>
         <mat-chip-list>

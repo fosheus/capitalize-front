@@ -33,6 +33,12 @@ export class PostService {
     return this.http.post<Post>(`${environment.url}/posts`, post);
   }
 
+  update(post: Post) {
+    return this.http.put<Post>(`${environment.url}/posts/${post.id}`, post);
+  }
+
+
+
   validate(id: number) {
     return this.http.patch<Post>(`${environment.url}/posts/${id}/validate`, null);
   }
