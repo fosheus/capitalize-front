@@ -13,6 +13,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatDialogModule, MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
+import { MatListModule } from '@angular/material/list';
+
 
 import { HighlightModule, HIGHLIGHT_OPTIONS } from 'ngx-highlightjs';
 import { LOCALE_ID } from '@angular/core';
@@ -32,7 +34,8 @@ const MATERIAL_MODULES = [
   MatFormFieldModule,
   MatInputModule,
   MatButtonToggleModule,
-  MatDialogModule
+  MatDialogModule,
+  MatListModule
 ]
 
 @NgModule({

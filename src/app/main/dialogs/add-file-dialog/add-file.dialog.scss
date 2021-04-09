@@ -1,0 +1,13 @@
+// et on masque le input
+.input-file {
+    display: none;
+}
+
+.label-file {
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.label-file:hover {
+    color: #375c51;
+}

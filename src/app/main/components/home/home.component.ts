@@ -19,7 +19,7 @@ export class HomeComponent implements OnInit {
     this.postService.getAllByCriteria([], '', 0).subscribe(posts => this.posts = posts);
   }
 
-  addPost() {
+  addPost(): void {
     this.router.navigateByUrl('/post/create');
   }
 }

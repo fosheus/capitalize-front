@@ -10,10 +10,20 @@ import { PostResumeComponent } from './components/post-resume/post-resume.compon
 import { PostResumeListComponent } from './components/post-resume-list/post-resume-list.component';
 import { PostConsultComponent } from './components/post-consult/post-consult.component';
 import { PostDetailsComponent } from './components/post-details/post-details.component';
+import { AddFileDialog } from './dialogs/add-file-dialog/add-file.dialog';
+import { GenericDialog } from './dialogs/generic-dialog/generic.dialog';
 
 
 @NgModule({
-  declarations: [MainComponent, HomeComponent, PostResumeComponent, PostResumeListComponent, PostDetailsComponent, PostConsultComponent],
+  declarations: [MainComponent,
+    HomeComponent,
+    PostResumeComponent,
+    PostResumeListComponent,
+    PostDetailsComponent,
+    PostConsultComponent,
+    AddFileDialog,
+    GenericDialog
+  ],
   imports: [
     CommonModule,
     MainRoutingModule,

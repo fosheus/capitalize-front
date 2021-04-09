@@ -46,7 +46,7 @@
                 <code [highlight]="file.content"></code>
             </pre>
                 </div>
-                <button mat-button mat-raised-button *ngIf="file && file.type==='BINARY'" (click)="downloadFile(file)" class="button-download">
+                <button mat-button mat-raised-button *ngIf="file && file.type==='OTHER'" (click)="downloadFile(file)" class="button-download">
                     Télécharger le fichier <span class="filename">{{file.path}}</span>
                 </button>
             </mat-tab>

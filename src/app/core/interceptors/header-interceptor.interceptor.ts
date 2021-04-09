@@ -26,11 +26,11 @@ export class HeaderInterceptor implements HttpInterceptor {
 
         return next.handle(req).pipe(
             catchError((error: HttpErrorResponse) => {
-                if (req.url.includes("login")) {
+                if (req.url.includes('login')) {
                     return throwError(error);
                 }
 
-                if (error && (error.status === 401 || error.status == 0)) {
+                if (error && (error.status === 401 || error.status === 0)) {
                     this.authService.logout();
                 }
                 return throwError(error);

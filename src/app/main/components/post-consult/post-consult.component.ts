@@ -20,7 +20,13 @@ export class PostConsultComponent implements OnInit {
   public me: User;
 
 
-  constructor(private router: Router, private postService: PostService, private fileService: FileService, private route: ActivatedRoute, private authService: AuthenticationService) { }
+  constructor(
+    private router: Router,
+    private postService: PostService,
+    private fileService: FileService,
+    private route: ActivatedRoute,
+    private authService: AuthenticationService
+  ) { }
 
   ngOnInit(): void {
 
@@ -28,7 +34,7 @@ export class PostConsultComponent implements OnInit {
     if (!postIdStr) {
       this.router.navigateByUrl('/home');
     } else {
-      this.postId = Number.parseInt(postIdStr);
+      this.postId = Number.parseInt(postIdStr, 10);
       if (isNaN(this.postId)) {
         this.router.navigateByUrl('/home');
       } else {
@@ -38,7 +44,7 @@ export class PostConsultComponent implements OnInit {
     }
   }
 
-  loadPost() {
+  loadPost(): void {
     this.postService.getOne(this.postId).subscribe(async post => {
       this.post = post;
       if (this.post.files) {
@@ -53,28 +59,27 @@ export class PostConsultComponent implements OnInit {
   }
 
 
-  public downloadFile(file: PostFile) {
+  public downloadFile(file: PostFile): void {
     this.fileService.getOneBinary(file.id as number).subscribe(data => {
       const blob = new Blob([data]);
       const url = window.URL.createObjectURL(blob);
-      FileSaver.saveAs(blob, file.name)
-
+      FileSaver.saveAs(blob, file.name);
     });
   }
 
-  public return() {
+  public return(): void {
     this.router.navigateByUrl('/home');
   }
 
-  public editPost() {
+  public editPost(): void {
     this.router.navigateByUrl(`/post/edit/${this.postId}`);
   }
 
-  public validatePost() {
+  public validatePost(): void {
     this.postService.validate(this.postId).subscribe(post => this.post = post);
   }
 
-  public deletePost() {
+  public deletePost(): void {
 
   }
 

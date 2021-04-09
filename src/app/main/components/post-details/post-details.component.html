@@ -41,46 +41,51 @@
                 <mat-label>Description</mat-label>
                 <textarea matInput formControlName="description" [matTextareaAutosize]="true" [matAutosizeMinRows]="10" style="background-color: #eeeeee; border-radius: 0.5rem;"></textarea>
             </mat-form-field>
-            <form [formGroup]="addTabForm" (ngSubmit)="addFileTab()">
+
+            <div *ngIf="state==='EDIT'">
                 <h3>Fichiers</h3>
-                <div fxLayout="column" fxLayoutGap="1rem" style="width: 400px;">
-                    <mat-form-field>
-                        <mat-label>Nom du fichier à ajouter (format /path/to/file.ext)</mat-label>
-                        <input matInput formControlName="tabName">
-                    </mat-form-field>
-                    <mat-button-toggle-group name="fontStyle" aria-label="Font Style" formControlName="tabType">
-                        <mat-button-toggle value="TEXT">Texte</mat-button-toggle>
-                        <mat-button-toggle value="BINARY">Binaire (zip,exe...)</mat-button-toggle>
-                    </mat-button-toggle-group>
 
-                    <button mat-button mat-raised-button type="submit">Ajouter un fichier </button>
-                </div>
-            </form>
+                <div fxLayout="row" fxLayoutAlign="start center">
+                    <form [formGroup]="addTabForm" (ngSubmit)="addFileTab()" fxFlex="30">
+                        <div fxLayout="column" fxLayoutGap="1rem">
 
-            <mat-tab-group formArrayName="files">
-                <ng-container *ngFor="let file of files.controls; let i=index" [formGroupName]="i">
-                    <mat-tab [label]="file.value.name">
-                        <ng-template mat-tab-label>
-                            {{file.value.path}}
-                            <mat-icon class="example-tab-icon" class="delete-tab" (click)="deleteFile(i)">cancel</mat-icon>
-                        </ng-template>
-                        <div *ngIf="file.value.type==='TEXT'">
-                            <mat-form-field class="description-textarea">
-                                <textarea matInput formControlName="content" [matTextareaAutosize]="true" [matAutosizeMinRows]="50" style="background-color: #eeeeee; border-radius: 0.5rem;"></textarea>
+                            <mat-button-toggle-group name="fontStyle" aria-label="Font Style" formControlName="tabType">
+                                <mat-button-toggle (click)="tabTypeClick('TEXT')" value="TEXT">Texte</mat-button-toggle>
+                                <mat-button-toggle (click)="tabTypeClick('OTHER')" value="OTHER">Autre (zip,exe...)</mat-button-toggle>
+                            </mat-button-toggle-group>
+
+                            <mat-form-field *ngIf="addTabForm.get('tabType')?.value === 'TEXT'">
+                                <mat-label>Nom du fichier à ajouter (format /path/to/file.ext)</mat-label>
+                                <input matInput formControlName="tabName">
                             </mat-form-field>
+
+                            <button mat-button mat-raised-button type="submit">Ajouter un fichier </button>
                         </div>
-                        <div *ngIf="file.value.type==='BINARY'">
-                            <div class="form-group">
-                                <label for="file" class="label-file">Choisir un fichier</label>
-                                <input type="file" id="file" class="input-file" (change)="handleFileInput($any($event.target).files,i)">
+                    </form>
+                    <span fxFlex="10"></span>
+                    <mat-list>
+                        <mat-list-item>coucou</mat-list-item>
+                        <mat-list-item>coucou</mat-list-item>
+                        <mat-list-item>coucou</mat-list-item>
+                        <mat-list-item>coucou</mat-list-item>
+                    </mat-list>
+                </div>
+                <mat-tab-group formArrayName="files">
+                    <ng-container *ngFor="let file of files.controls; let i=index" [formGroupName]="i">
+                        <mat-tab [label]="file.value.name">
+                            <ng-template mat-tab-label>
+                                {{file.value.path}}
+                                <mat-icon class="example-tab-icon" class="delete-tab" (click)="deleteFile(i)">cancel</mat-icon>
+                            </ng-template>
+                            <div *ngIf="file.value.type==='TEXT'">
+                                <mat-form-field class="description-textarea">
+                                    <textarea matInput formControlName="content" [matTextareaAutosize]="true" [matAutosizeMinRows]="50" style="background-color: #eeeeee; border-radius: 0.5rem;"></textarea>
+                                </mat-form-field>
                             </div>
-                            <div *ngIf="file.value.set">
-                                Fichier selectionné : {{file.value.name}}
-                            </div>
-                        </div>
-                    </mat-tab>
-                </ng-container>
-            </mat-tab-group>
+                        </mat-tab>
+                    </ng-container>
+                </mat-tab-group>
+            </div>
         </form>
     </div>
 </div>

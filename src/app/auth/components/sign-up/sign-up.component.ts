@@ -25,7 +25,7 @@ export class SignUpComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  onSubmit() {
+  onSubmit(): void {
     if (this.signupForm.controls.password.value === this.signupForm.controls.confirmPassword.value) {
       const user = new User(
         this.signupForm.controls.firstname.value,

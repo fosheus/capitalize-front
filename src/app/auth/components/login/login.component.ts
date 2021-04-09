@@ -26,11 +26,11 @@ export class LoginComponent implements OnInit {
     }
   }
 
-  onSubmit() {
+  onSubmit(): void {
     const loginModel = { username: this.loginForm.controls.username.value, password: this.loginForm.controls.password.value };
     this.errorLoggin = false;
     this.authService.login(loginModel).subscribe(resp => {
-      this.router.navigateByUrl('/home')
+      this.router.navigateByUrl('/home');
     }, err => this.errorLoggin = true);
   }
 }

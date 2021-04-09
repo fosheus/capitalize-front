@@ -1,4 +1,4 @@
-import { Profile } from "./profile.model";
+import { Profile } from './profile.model';
 
 export class User {
 
@@ -6,11 +6,12 @@ export class User {
     public profile: Profile;
 
 
-    constructor(public firstname?: string,
+    constructor(
+        public firstname?: string,
         public lastname?: string,
         public email?: string,
         public username?: string,
-        public password?: string) { }
-
+        public password?: string
+    ) { }
 
 }

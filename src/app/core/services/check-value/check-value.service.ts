@@ -7,15 +7,15 @@ export class CheckValueService {
 
   constructor() { }
 
-  hasNumberValue(n:number) {
-    return n!==null && n!== undefined && !isNaN(n);
+  hasNumberValue(n: number): boolean {
+    return n !== null && n !== undefined && !isNaN(n);
   }
 
-  hasStringValue(s : string) {
-    return s !== null && s !== undefined && s !=="";
+  hasStringValue(s: string): boolean {
+    return s !== null && s !== undefined && s !== '';
   }
 
-  hasArrayValue(a : any[]) {
-    return a !== null && a != undefined && a.length>0;
+  hasArrayValue(a: any[]): boolean {
+    return a !== null && a !== undefined && a.length > 0;
   }
 }

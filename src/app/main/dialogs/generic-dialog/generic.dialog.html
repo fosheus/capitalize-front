@@ -1,0 +1,6 @@
+<h1 mat-dialog-title [style]="data.titleStyle">{{data.title}}</h1>
+<p>{{data.content}}</p>
+<div mat-dialog-actions>
+    <button mat-stroked-button *ngIf="data.koButton" (click)="onNoClick()">{{data.koButton}}</button>
+    <button mat-raised-button color="primary" (click)="onValidateClick()" cdkFocusInitial>{{data.okButton}}</button>
+</div>

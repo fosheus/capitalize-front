@@ -40,10 +40,6 @@ section {
     background-color: #6eb16d;
 }
 
-form {
-    width: 100%;
-}
-
 .description-textarea {
     width: 100%;
 }
@@ -69,9 +65,4 @@ mat-button-toggle {
 
 .label-file:hover {
     color: #25a5c4;
-}
-
-// et on masque le input
-.input-file {
-    display: none;
 }

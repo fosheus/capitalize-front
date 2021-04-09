@@ -40,11 +40,11 @@ export class PostDetailsComponent implements OnInit {
     files: new FormArray([])
   });
 
-  get files() {
+  get files(): FormArray {
     return this.postForm.get('files') as FormArray;
   }
 
-  get tags() {
+  get tags(): FormArray {
     return this.postForm.get('tags') as FormArray;
   }
 
@@ -69,7 +69,7 @@ export class PostDetailsComponent implements OnInit {
     this.loadOrExit();
   }
 
-  private checkState(state: UrlSegment[]) {
+  private checkState(state: UrlSegment[]): void {
     if (state.length > 1 && state[1].path === 'create') {
       this.state = PostDetailsComponentState.CREATE;
     } else if (state.length > 2 && state[1].path === 'edit') {
@@ -81,7 +81,7 @@ export class PostDetailsComponent implements OnInit {
   }
 
 
-  private loadOrExit() {
+  private loadOrExit(): void {
     if (this.postId === NaN) {
       this.router.navigateByUrl('/home');
     } else if (this.state === 'EDIT') {
@@ -92,7 +92,7 @@ export class PostDetailsComponent implements OnInit {
     }
   }
 
-  private loadPost() {
+  private loadPost(): void {
     this.postService.getOne(this.postId).subscribe(post => {
       this.postForm = new FormGroup({
         id: new FormControl(Number(post.id), [Validators.required]),
