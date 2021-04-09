@@ -1,6 +1,7 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatChipInputEvent } from '@angular/material/chips';
+import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router, UrlSegment } from '@angular/router';
 import { PostFile } from 'src/app/core/models/post-file.model';
 import { PostTag } from 'src/app/core/models/post-tag.model';
@@ -9,6 +10,7 @@ import { User } from 'src/app/core/models/user.model';
 import { AuthenticationService } from 'src/app/core/services/authentication/authentication.service';
 import { FileService } from 'src/app/core/services/file/file.service';
 import { PostService } from 'src/app/core/services/post/post.service';
+import { DeleteFileDialog } from '../../dialogs/delete-file-dialog/delete-file.dialog';
 
 @Component({
   selector: 'app-post-details',
@@ -45,7 +47,7 @@ export class PostDetailsComponent implements OnInit {
     tabType: new FormControl('', [Validators.required])
   })
 
-  constructor(private router: Router, private postService: PostService, private route: ActivatedRoute, private fileService: FileService, private authService: AuthenticationService) { }
+  constructor(private router: Router, private postService: PostService, private route: ActivatedRoute, private fileService: FileService, private authService: AuthenticationService, public dialog: MatDialog) { }
 
   ngOnInit(): void {
     const state = this.route.snapshot.url;
@@ -65,7 +67,7 @@ export class PostDetailsComponent implements OnInit {
   }
 
   private loadOrExit() {
-    if (isNaN(this.postId)) {
+    if (this.postId === NaN) {
       this.router.navigateByUrl('/home');
     } else if (this.state === 'EDIT') {
       this.loadPost();
@@ -78,19 +80,25 @@ export class PostDetailsComponent implements OnInit {
   private loadPost() {
     this.postService.getOne(this.postId).subscribe(post => {
       this.postForm = new FormGroup({
+        id: new FormControl(Number(post.id), [Validators.required]),
         title: new FormControl(post.title, [Validators.required]),
         tags: new FormArray(post.tags.map(t => this.mapTagToFormGroup(t))),
         description: new FormControl(post.description, [Validators.required]),
-        files: new FormArray(post.files.map(f => this.mapFileToFormGroup(f))),
+        files: new FormArray(post.files.map(f => {
+          f.set = true;
+          f.modified = false;
+          return this.mapFileToFormGroup(f)
+        })),
       });
 
       for (let i in post.files) {
+        post.files[i].set = true;
+        post.files[i].modified = false;
         if (post.files[i].type === 'TEXT') {
           this.fileService.getOne(post.files[i].id)
             .subscribe(content => {
               post.files[i].content = content.data;
               this.patchFileContent(i, content.data);
-              console.log(this.postForm.get(`files.${i}.content`));
             });
         }
       };
@@ -109,7 +117,9 @@ export class PostDetailsComponent implements OnInit {
       path: new FormControl(file.path),
       name: new FormControl(file.name),
       type: new FormControl(file.type),
-      binary: new FormControl()
+      binary: new FormControl(),
+      modified: new FormControl(file.modified),
+      set: new FormControl(file.set)
     });
   }
   private mapTagToFormGroup(tag: PostTag) {
@@ -131,6 +141,18 @@ export class PostDetailsComponent implements OnInit {
       file.content = '';
       this.files.push(this.mapFileToFormGroup(file));
     }
+  }
+
+  deleteFile(index: number) {
+    const file = this.files.at(index).value;
+    const dialogRef = this.dialog.open(DeleteFileDialog, {
+      width: '250px',
+      data: { filename: file.path }
+    });
+
+    dialogRef.afterClosed().subscribe(() => {
+      this.files.removeAt(index)
+    });
   }
 
   deleteTag(index: number) {
@@ -169,12 +191,11 @@ export class PostDetailsComponent implements OnInit {
       postToSave.files[index].binary = new File([], '');
     }
     if (this.state === 'CREATE') {
-      this.postService.create(postToSave);
+      this.postService.create(postToSave).subscribe();
     } else {
-      this.postService.update(postToSave);
+      this.postService.update(postToSave).subscribe();
     }
 
-    console.log(postToSave);
   }
 
 

@@ -6,7 +6,8 @@ export class PostFile {
     public type: string;
     public content: string = '';
     public binary: File;
-
+    public modified = false;
+    public set: boolean;
     constructor() {
     }
 

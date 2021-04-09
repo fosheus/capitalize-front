@@ -3,7 +3,7 @@
         <button mat-button mat-flat-button class="button-back" (click)="return()">
         <mat-icon>keyboard_arrow_left</mat-icon>Retour
     </button>
-        <ng-container *ngIf="post && me">
+        <ng-container *ngIf="me">
             <button mat-button mat-flat-button class="button-save" *ngIf="(post && me.id === post.owner.id) || me.profile.label === 'ADMIN' || me.profile.label === 'ARCHITECT'" (click)="savePost()">
             <mat-icon>save</mat-icon>Enregistrer
         </button>
@@ -17,9 +17,9 @@
     </div>
     <div class=" divider">
     </div>
-    <div *ngIf="post" class="post-form">
+    <div class="post-form">
         <form [formGroup]="postForm" fxLayout="column" fxFlexAlign="center" fxLayoutGap="1rem">
-            <div class="user-text" *ngIf="state==='EDIT'">Créé par {{post.owner.username}} le {{post.createdAt | date :'short' :'UTC +1' :'fr'}}
+            <div class="user-text" *ngIf="state==='EDIT' && post">Créé par {{post.owner.username}} le {{post.createdAt | date :'short' :'UTC +1' :'fr'}}
             </div>
             <mat-form-field>
                 <mat-label>Titre</mat-label>
@@ -28,11 +28,12 @@
 
             <mat-form-field>
 
+                <mat-label>Tags</mat-label>
                 <mat-chip-list #tagChipList formArrayName="tags">
                     <mat-chip *ngFor="let tag of tags.controls; let i=index" [formGroupName]="i">{{tag.value.label}}
                         <mat-icon (click)="deleteTag(i)" class="delete-tag">cancel</mat-icon>
                     </mat-chip>
-                    <input [matChipInputFor]="tagChipList" (matChipInputTokenEnd)="addTag($event)">
+                    <input [matChipInputFor]="tagChipList" (matChipInputTokenEnd)="addTag($event)" placeholder="Saisir des tags et valider avec 'Entrée'">
                 </mat-chip-list>
             </mat-form-field>
 
@@ -58,7 +59,11 @@
 
             <mat-tab-group formArrayName="files">
                 <ng-container *ngFor="let file of files.controls; let i=index" [formGroupName]="i">
-                    <mat-tab [label]="file.value.path">
+                    <mat-tab [label]="file.value.name">
+                        <ng-template mat-tab-label>
+                            {{file.value.path}}
+                            <mat-icon class="example-tab-icon" class="delete-tab" (click)="deleteFile(i)">cancel</mat-icon>
+                        </ng-template>
                         <div *ngIf="file.value.type==='TEXT'">
                             <mat-form-field class="description-textarea">
                                 <textarea matInput formControlName="content" [matTextareaAutosize]="true" [matAutosizeMinRows]="50" style="background-color: #eeeeee; border-radius: 0.5rem;"></textarea>
@@ -66,10 +71,12 @@
                         </div>
                         <div *ngIf="file.value.type==='BINARY'">
                             <div class="form-group">
-                                <label for="file">Choose File</label>
-                                <input type="file" id="file" (change)="handleFileInput($any($event.target).files,i)">
+                                <label for="file" class="label-file">Choisir un fichier</label>
+                                <input type="file" id="file" class="input-file" (change)="handleFileInput($any($event.target).files,i)">
                             </div>
-
+                            <div *ngIf="file.value.set">
+                                Fichier selectionné : {{file.value.name}}
+                            </div>
                         </div>
                     </mat-tab>
                 </ng-container>

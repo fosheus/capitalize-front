@@ -53,5 +53,25 @@ mat-button-toggle {
 }
 
 .delete-tag {
-    color: red;
+    color: darkgray;
+    margin-left: 0.5rem;
+}
+
+.delete-tab {
+    margin-left: 0.5rem;
+}
+
+.label-file {
+    cursor: pointer;
+    color: #00b1ca;
+    font-weight: bold;
+}
+
+.label-file:hover {
+    color: #25a5c4;
+}
+
+// et on masque le input
+.input-file {
+    display: none;
 }

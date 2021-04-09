@@ -12,6 +12,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { MatDialogModule, MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
 
 import { HighlightModule, HIGHLIGHT_OPTIONS } from 'ngx-highlightjs';
 import { LOCALE_ID } from '@angular/core';
@@ -30,7 +31,8 @@ const MATERIAL_MODULES = [
   MatDividerModule,
   MatFormFieldModule,
   MatInputModule,
-  MatButtonToggleModule
+  MatButtonToggleModule,
+  MatDialogModule
 ]
 
 @NgModule({
@@ -53,6 +55,7 @@ const MATERIAL_MODULES = [
     HighlightModule,
     ...MATERIAL_MODULES
   ],
-  providers: [{ provide: HIGHLIGHT_OPTIONS, useValue: { fullLibraryLoader: () => import('highlight.js') } }, { provide: LOCALE_ID, useValue: 'fr' }]
+  providers: [{ provide: HIGHLIGHT_OPTIONS, useValue: { fullLibraryLoader: () => import('highlight.js') } }, { provide: LOCALE_ID, useValue: 'fr' }, { provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: { hasBackdrop: false } }
+  ]
 })
 export class SharedModule { }
