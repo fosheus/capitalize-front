@@ -9,7 +9,9 @@ import { Post } from 'src/app/core/models/post.model';
 import { User } from 'src/app/core/models/user.model';
 import { AuthenticationService } from 'src/app/core/services/authentication/authentication.service';
 import { FileService } from 'src/app/core/services/file/file.service';
+import { ModalService } from 'src/app/core/services/modal/modal.service';
 import { PostService } from 'src/app/core/services/post/post.service';
+import { AddFileDialog } from '../../dialogs/add-file-dialog/add-file.dialog';
 import { DeleteFileDialog } from '../../dialogs/delete-file-dialog/delete-file.dialog';
 
 @Component({
@@ -18,6 +20,10 @@ import { DeleteFileDialog } from '../../dialogs/delete-file-dialog/delete-file.d
   styleUrls: ['./post-details.component.scss']
 })
 export class PostDetailsComponent implements OnInit {
+
+  private forbiddenCharactersFilename = ['/', '\\'];
+  private forbiddenCharactersPath = ['<', '>', ':', '"', '\'', '|', '`', '?', '*', '..'];
+
 
   public state: string;
   public post: Post;
@@ -47,7 +53,15 @@ export class PostDetailsComponent implements OnInit {
     tabType: new FormControl('', [Validators.required])
   })
 
-  constructor(private router: Router, private postService: PostService, private route: ActivatedRoute, private fileService: FileService, private authService: AuthenticationService, public dialog: MatDialog) { }
+  constructor(
+    private router: Router,
+    private postService: PostService,
+    private route: ActivatedRoute,
+    private fileService: FileService,
+    private authService: AuthenticationService,
+    private dialog: MatDialog,
+    private modalService: ModalService
+  ) { }
 
   ngOnInit(): void {
     const state = this.route.snapshot.url;
@@ -65,6 +79,7 @@ export class PostDetailsComponent implements OnInit {
       this.postId = NaN;
     }
   }
+
 
   private loadOrExit() {
     if (this.postId === NaN) {
@@ -118,7 +133,7 @@ export class PostDetailsComponent implements OnInit {
       name: new FormControl(file.name),
       type: new FormControl(file.type),
       binary: new FormControl(),
-      modified: new FormControl(file.modified),
+      modified: new FormControl(false),
       set: new FormControl(file.set)
     });
   }
@@ -132,15 +147,45 @@ export class PostDetailsComponent implements OnInit {
 
   addFileTab() {
     if (this.addTabForm.valid) {
-      if (this.files.value) {
+      if (this.addTabForm.get('tabType')?.value === 'OTHER') {
+        const dialogRef = this.dialog.open(AddFileDialog, {
+          width: '500px'
+        });
+        dialogRef.afterClosed().subscribe((file) => {
+          this.addFile(file.name, 'OTHER');
+        });
+      } else {
+        this.addFile(this.addTabForm.controls['tabName'].value, this.addTabForm.controls['tabType'].value);
       }
-      const file: PostFile = new PostFile();
-      file.path = this.addTabForm.controls['tabName'].value;
-      file.type = this.addTabForm.controls['tabType'].value;
-      file.name = file.path.split('/').slice(-1)[0];
-      file.content = '';
-      this.files.push(this.mapFileToFormGroup(file));
+
     }
+  }
+  addFile(name: string, type: string) {
+    if (this.files.value.find((file: PostFile) => file.path === name) !== undefined) {
+      this.modalService.alert('', 'identifiant non unique', 'Il existe déjà un fichier avec le chemin : ' + name + '.', 'OK');
+      return;
+    }
+    if (this.forbiddenCharactersPath.find(elem => name.includes(elem)) !== undefined) {
+      this.modalService.alert('', 'Chemin de fichier incorrect', 'Le chemin du fichier ne peux pas comporter les caractères suivants : ' + this.forbiddenCharactersPath.join(' '), 'OK');
+      return;
+    }
+
+
+    const file: PostFile = new PostFile();
+    file.path = name;
+    file.type = type;
+    file.name = file.path.split('/').slice(-1)[0];
+    file.content = '';
+    this.files.push(this.mapFileToFormGroup(file));
+
+  }
+
+  tabTypeClick(type: string) {
+    this.addTabForm.get('tabName')?.clearValidators();
+    if (type === 'TEXT') {
+      this.addTabForm.get('tabName')?.setValidators(Validators.required);
+    }
+    this.addTabForm.get('tabName')?.updateValueAndValidity({ onlySelf: false });
   }
 
   deleteFile(index: number) {
@@ -172,11 +217,6 @@ export class PostDetailsComponent implements OnInit {
 
 
 
-  handleFileInput(files: FileList, index: number) {
-    const fileToUpload = files.item(0);
-    this.files.get(`${index}.binary`)?.patchValue(fileToUpload);
-  }
-
 
   public return() {
     this.router.navigateByUrl('/home');
@@ -185,13 +225,21 @@ export class PostDetailsComponent implements OnInit {
 
   public savePost() {
 
+    if (!this.postForm.valid) {
+      this.modalService.info('500px', 'Le formulaire n\'est pas valide', 'Veillez verifier que toutes les informations requises sont saisie', 'OK');
+      return;
+    }
+    if (this.tags.length === 0) {
+      this.modalService.info('500px', 'Le formulaire n\'est pas valide', 'Vous devez saisir au moins un tag', 'OK');
+      return;
+    }
     const postToSave: Post = Object.assign({}, this.postForm.value);
     for (const index in postToSave.files) {
       postToSave.files[index].content = '';
       postToSave.files[index].binary = new File([], '');
     }
     if (this.state === 'CREATE') {
-      this.postService.create(postToSave).subscribe();
+      this.postService.create(postToSave).subscribe(post => this.router.navigateByUrl('post/edit/' + post.id));
     } else {
       this.postService.update(postToSave).subscribe();
     }
