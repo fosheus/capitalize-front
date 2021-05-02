@@ -22,4 +22,16 @@ export class FileService {
     return this.http.get(`api/files/${fileId}/binary`, { responseType: 'blob' });
   }
 
+  updateFileContentText(fileId: number, text: string) {
+    return this.http.put(`api/files/${fileId}/text`, { data: text });
+  }
+
+  updateFileContentBinary(fileId: number, file: File) {
+
+    const formData = new FormData();
+    // formData.append('')
+    return this.http.put(`api/files/${fileId}/binary`, {});
+  }
+
+
 }

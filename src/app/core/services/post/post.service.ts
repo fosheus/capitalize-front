@@ -5,6 +5,7 @@ import { Post } from 'src/app/core/models/post.model';
 import { environment } from 'src/environments/environment';
 import { CheckValueService } from '../check-value/check-value.service';
 import { Observable } from 'rxjs';
+import { PostFile } from '../../models/post-file.model';
 
 @Injectable({
   providedIn: 'root'
@@ -38,13 +39,41 @@ export class PostService {
     return this.http.put<Post>(`api/posts/${post.id}`, post);
   }
 
-
-
   validate(id: number): Observable<Post> {
     return this.http.patch<Post>(`api/posts/${id}/validate`, null);
   }
 
   delete(id: number): Observable<any> {
     return this.http.delete(`api/posts/${id}`);
+  }
+
+  createFile(postId: number, fileDto: PostFile) {
+    return this.http.post<PostFile>(`api/posts/${postId}/files`, this.prepareFormData(fileDto));
+  }
+
+  updateFile(postId: number, fileDto: PostFile) {
+    return this.http.post<PostFile>(`api/posts/${postId}/files/${fileDto.id}`, this.prepareFormData(fileDto));
+  }
+
+  private prepareFormData(fileDto: PostFile) {
+    const formData = new FormData();
+    const text = fileDto.text;
+    if (fileDto.binary) {
+      formData.append('file', fileDto.binary, fileDto.name);
+    }
+    if (text && text != '') {
+      formData.append('text', text);
+    }
+    if (fileDto.id) {
+      formData.append('id', fileDto.id.toString());
+    }
+    formData.append('path', fileDto.path);
+    formData.append('name', fileDto.name);
+    formData.append('type', fileDto.type);
+    return formData;
+  }
+
+  deleteFile(postId: number, fileId: number) {
+    return this.http.delete<PostFile>(`api/posts/${postId}/files/${fileId}`);
   }
 }

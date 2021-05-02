@@ -9,10 +9,14 @@ export class DeleteFileDialog {
 
 	constructor(
 		public dialogRef: MatDialogRef<DeleteFileDialog>,
-		@Inject(MAT_DIALOG_DATA) public nomFichier: string) { }
+		@Inject(MAT_DIALOG_DATA) public data: any) { }
 
 	onNoClick(): void {
-		this.dialogRef.close();
+		this.dialogRef.close(false);
+	}
+
+	onValidateClick(): void {
+		this.dialogRef.close(true);
 	}
 
 }

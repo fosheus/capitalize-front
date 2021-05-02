@@ -1,7 +1,7 @@
 <h1 mat-dialog-title>Supprimer le fichier </h1>
-Êtes-vous sûr de vouloir supprimer definitivement le fichier {{nomFichier}} ?
+Êtes-vous sûr de vouloir supprimer définitivement le fichier <b>{{data.filename}}</b> ?
 
 <div mat-dialog-actions>
     <button mat-button (click)="onNoClick()">Non</button>
-    <button mat-button cdkFocusInitial>Ok</button>
+    <button mat-button (click)="onValidateClick()" cdkFocusInitial>Ok</button>
 </div>

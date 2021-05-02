@@ -37,13 +37,13 @@
         <h3>Description</h3>
         <mat-card>{{post.description || "Pas de description"}}</mat-card>
     </section>
-    <section>
+    <section *ngIf="post && post.files && post.files.length>0">
         <h3>Fichiers</h3>
         <mat-tab-group>
             <mat-tab *ngFor="let file of post.files" [label]="file.path">
                 <div *ngIf="file && file.type==='TEXT'">
                     <pre>
-                <code [highlight]="file.content"></code>
+                <code [highlight]="file.text ? file.text : ''"></code>
             </pre>
                 </div>
                 <button mat-button mat-raised-button *ngIf="file && file.type==='OTHER'" (click)="downloadFile(file)" class="button-download">

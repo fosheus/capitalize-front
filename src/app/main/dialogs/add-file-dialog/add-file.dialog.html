@@ -1,7 +1,7 @@
 <h1 mat-dialog-title>Ajouter un fichier </h1>
 
 <div class="form-group">
-    <label for="file" class="label-file">Choisir un fichier</label>
+    <label mat-button for="file" class="label-file">Choisir un fichier</label>
     <input type="file" id="file" class="input-file" (change)="handleFileInput($any($event.target).files)">
 </div>
 <div *ngIf="fileToUpload">

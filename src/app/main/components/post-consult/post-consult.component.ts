@@ -51,7 +51,7 @@ export class PostConsultComponent implements OnInit {
         this.post.files.forEach(file => {
           if (file.type === 'TEXT') {
             this.fileService.getOne(file.id)
-              .subscribe(content => file.content = content.data);
+              .subscribe(content => file.text = content.data);
           }
         });
       }

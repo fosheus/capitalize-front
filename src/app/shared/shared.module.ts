@@ -14,12 +14,15 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatDialogModule, MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
 import { MatListModule } from '@angular/material/list';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 
 import { HighlightModule, HIGHLIGHT_OPTIONS } from 'ngx-highlightjs';
 import { LOCALE_ID } from '@angular/core';
 import { registerLocaleData } from '@angular/common';
 import localeFr from '@angular/common/locales/fr';
+import { FilterObjectPipe } from './pipes/filter-object/filter-object.pipe';
+import { FilterControlPipe } from './pipes/filter-control/filter-control.pipe';
 
 registerLocaleData(localeFr, 'fr');
 
@@ -35,11 +38,12 @@ const MATERIAL_MODULES = [
   MatInputModule,
   MatButtonToggleModule,
   MatDialogModule,
-  MatListModule
+  MatListModule,
+  MatProgressSpinnerModule
 ]
 
 @NgModule({
-  declarations: [],
+  declarations: [FilterObjectPipe, FilterControlPipe],
   imports: [
     CommonModule,
     ReactiveFormsModule,
@@ -56,6 +60,8 @@ const MATERIAL_MODULES = [
     HttpClientModule,
     FlexLayoutModule,
     HighlightModule,
+    FilterObjectPipe,
+    FilterControlPipe,
     ...MATERIAL_MODULES
   ],
   providers: [{ provide: HIGHLIGHT_OPTIONS, useValue: { fullLibraryLoader: () => import('highlight.js') } }, { provide: LOCALE_ID, useValue: 'fr' }, { provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: { hasBackdrop: false } }

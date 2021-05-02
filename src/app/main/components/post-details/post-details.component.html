@@ -42,7 +42,7 @@
                 <textarea matInput formControlName="description" [matTextareaAutosize]="true" [matAutosizeMinRows]="10" style="background-color: #eeeeee; border-radius: 0.5rem;"></textarea>
             </mat-form-field>
 
-            <div *ngIf="state==='EDIT'">
+            <div>
                 <h3>Fichiers</h3>
 
                 <div fxLayout="row" fxLayoutAlign="start center">
@@ -63,23 +63,25 @@
                         </div>
                     </form>
                     <span fxFlex="10"></span>
-                    <mat-list>
-                        <mat-list-item>coucou</mat-list-item>
-                        <mat-list-item>coucou</mat-list-item>
-                        <mat-list-item>coucou</mat-list-item>
-                        <mat-list-item>coucou</mat-list-item>
-                    </mat-list>
+
+                </div>
+                <div fxLayout="row wrap" fxLayoutGap="1rem" style="margin: 1rem 0 1rem 0;">
+                    <ng-container *ngFor="let file of files.value ;let i=index">
+                        <span *ngIf="file.type==='OTHER' && !file.deleted">
+                        {{file.name}}
+                        <mat-icon class="example-tab-icon" class="delete-file" (click)="deleteFile(i)">cancel</mat-icon></span>
+                    </ng-container>
                 </div>
                 <mat-tab-group formArrayName="files">
                     <ng-container *ngFor="let file of files.controls; let i=index" [formGroupName]="i">
-                        <mat-tab [label]="file.value.name">
+                        <mat-tab [label]="file.value.name" *ngIf="file.value.type==='TEXT' && !file.value.deleted">
                             <ng-template mat-tab-label>
                                 {{file.value.path}}
                                 <mat-icon class="example-tab-icon" class="delete-tab" (click)="deleteFile(i)">cancel</mat-icon>
                             </ng-template>
-                            <div *ngIf="file.value.type==='TEXT'">
+                            <div>
                                 <mat-form-field class="description-textarea">
-                                    <textarea matInput formControlName="content" [matTextareaAutosize]="true" [matAutosizeMinRows]="50" style="background-color: #eeeeee; border-radius: 0.5rem;"></textarea>
+                                    <textarea matInput formControlName="text" [matTextareaAutosize]="true" [matAutosizeMinRows]="50" style="background-color: #eeeeee; border-radius: 0.5rem;" (change)="fileContentChanged(i)"></textarea>
                                 </mat-form-field>
                             </div>
                         </mat-tab>

@@ -3,6 +3,7 @@ import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router, UrlSegment } from '@angular/router';
+import { forkJoin, Observable } from 'rxjs';
 import { PostFile } from 'src/app/core/models/post-file.model';
 import { PostTag } from 'src/app/core/models/post-tag.model';
 import { Post } from 'src/app/core/models/post.model';
@@ -100,20 +101,18 @@ export class PostDetailsComponent implements OnInit {
         tags: new FormArray(post.tags.map(t => this.mapTagToFormGroup(t))),
         description: new FormControl(post.description, [Validators.required]),
         files: new FormArray(post.files.map(f => {
-          f.set = true;
           f.modified = false;
           return this.mapFileToFormGroup(f)
         })),
       });
 
       for (let i in post.files) {
-        post.files[i].set = true;
         post.files[i].modified = false;
         if (post.files[i].type === 'TEXT') {
           this.fileService.getOne(post.files[i].id)
             .subscribe(content => {
-              post.files[i].content = content.data;
-              this.patchFileContent(i, content.data);
+              post.files[i].text = content.data;
+              this.patchFileText(i, content.data);
             });
         }
       };
@@ -121,20 +120,19 @@ export class PostDetailsComponent implements OnInit {
     });
   }
 
-  private patchFileContent(index: string, content: string) {
-    this.postForm.get(`files.${index}.content`)?.patchValue(content);
+  private patchFileText(index: string, text: string) {
+    this.postForm.get(`files.${index}.text`)?.patchValue(text);
   }
 
   private mapFileToFormGroup(file: PostFile) {
     return new FormGroup({
       id: new FormControl(file.id),
-      content: new FormControl(file.content),
+      text: new FormControl(file.text),
       path: new FormControl(file.path),
       name: new FormControl(file.name),
       type: new FormControl(file.type),
-      binary: new FormControl(),
-      modified: new FormControl(false),
-      set: new FormControl(file.set)
+      binary: new FormControl(file.binary),
+      modified: new FormControl(file.modified),
     });
   }
   private mapTagToFormGroup(tag: PostTag) {
@@ -152,15 +150,15 @@ export class PostDetailsComponent implements OnInit {
           width: '500px'
         });
         dialogRef.afterClosed().subscribe((file) => {
-          this.addFile(file.name, 'OTHER');
+          this.addFile(file.name, 'OTHER', file);
         });
       } else {
-        this.addFile(this.addTabForm.controls['tabName'].value, this.addTabForm.controls['tabType'].value);
+        this.addFile(this.addTabForm.controls['tabName'].value, this.addTabForm.controls['tabType'].value, undefined);
       }
 
     }
   }
-  addFile(name: string, type: string) {
+  addFile(name: string, type: string, binary: File | undefined) {
     if (this.files.value.find((file: PostFile) => file.path === name) !== undefined) {
       this.modalService.alert('', 'identifiant non unique', 'Il existe déjà un fichier avec le chemin : ' + name + '.', 'OK');
       return;
@@ -170,12 +168,13 @@ export class PostDetailsComponent implements OnInit {
       return;
     }
 
-
     const file: PostFile = new PostFile();
     file.path = name;
     file.type = type;
     file.name = file.path.split('/').slice(-1)[0];
-    file.content = '';
+    file.text = '';
+    file.modified = true;
+    file.binary = binary;
     this.files.push(this.mapFileToFormGroup(file));
 
   }
@@ -191,13 +190,23 @@ export class PostDetailsComponent implements OnInit {
   deleteFile(index: number) {
     const file = this.files.at(index).value;
     const dialogRef = this.dialog.open(DeleteFileDialog, {
-      width: '250px',
+      width: '400px',
       data: { filename: file.path }
     });
 
-    dialogRef.afterClosed().subscribe(() => {
-      this.files.removeAt(index)
+    dialogRef.afterClosed().subscribe((value) => {
+      if (value) {
+        const file = this.files.at(index).value;
+        file.deleted = true;
+        this.files.at(index).setValue(file);
+      }
     });
+  }
+
+  fileContentChanged(index: number) {
+    const file = this.files.at(index).value;
+    file.modified = true;
+    this.files.at(index).setValue(file);
   }
 
   deleteTag(index: number) {
@@ -216,8 +225,6 @@ export class PostDetailsComponent implements OnInit {
   }
 
 
-
-
   public return() {
     this.router.navigateByUrl('/home');
   }
@@ -234,15 +241,32 @@ export class PostDetailsComponent implements OnInit {
       return;
     }
     const postToSave: Post = Object.assign({}, this.postForm.value);
-    for (const index in postToSave.files) {
-      postToSave.files[index].content = '';
-      postToSave.files[index].binary = new File([], '');
-    }
+    postToSave.files = [];
+
+    let subscription: Observable<Post>;
     if (this.state === 'CREATE') {
-      this.postService.create(postToSave).subscribe(post => this.router.navigateByUrl('post/edit/' + post.id));
+      subscription = this.postService.create(postToSave)
     } else {
-      this.postService.update(postToSave).subscribe();
+      subscription = this.postService.update(postToSave);
     }
+    subscription.subscribe(post => {
+      const postWithFiles: Post = Object.assign({}, this.postForm.value);
+
+      // map files to observables
+
+      const deletedFiled = postWithFiles.files.filter(f => f.deleted && f.id);
+      const updatedFiles = postWithFiles.files.filter(f => f.modified && f.id && !f.deleted);
+      const createdFiles = postWithFiles.files.filter(f => f.modified && !f.id && !f.deleted);
+      const deleteFilesObservables = deletedFiled.map(f => this.postService.deleteFile(post.id, f.id)); //files that existed and are deleted
+      const updateFilesObservables = updatedFiles.map(f => this.postService.updateFile(post.id, f)); // files that existed and are modified and not deleted
+      const createFilesObservables = createdFiles.map(f => this.postService.createFile(post.id, f)); // files that are created
+
+      forkJoin(deleteFilesObservables).subscribe(() => forkJoin([updateFilesObservables, createFilesObservables]).subscribe(
+
+      ));
+
+      this.router.navigateByUrl('post/edit/' + post.id)
+    });
 
   }
 

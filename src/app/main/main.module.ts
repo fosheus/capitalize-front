@@ -12,6 +12,8 @@ import { PostConsultComponent } from './components/post-consult/post-consult.com
 import { PostDetailsComponent } from './components/post-details/post-details.component';
 import { AddFileDialog } from './dialogs/add-file-dialog/add-file.dialog';
 import { GenericDialog } from './dialogs/generic-dialog/generic.dialog';
+import { DeleteFileDialog } from './dialogs/delete-file-dialog/delete-file.dialog';
+import { SpinnerDialog } from './dialogs/spinner-dialog/spinner.dialog';
 
 
 @NgModule({
@@ -22,7 +24,9 @@ import { GenericDialog } from './dialogs/generic-dialog/generic.dialog';
     PostDetailsComponent,
     PostConsultComponent,
     AddFileDialog,
-    GenericDialog
+    GenericDialog,
+    DeleteFileDialog,
+    SpinnerDialog
   ],
   imports: [
     CommonModule,

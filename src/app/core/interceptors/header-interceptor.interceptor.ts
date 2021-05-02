@@ -17,10 +17,7 @@ export class HeaderInterceptor implements HttpInterceptor {
 
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
-        req = req.clone({
-            headers: req.headers
-                .append('Content-Type', 'application/json')
-        });
+
 
         req = this.addAuthenticationToken(req);
 
