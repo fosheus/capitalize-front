@@ -3,8 +3,8 @@ COPY package.json .
 COPY angular.json .
 COPY tsconfig.app.json .
 COPY tsconfig.json .
-COPY tsconfig.spec.json
-COPY tslint.json
+COPY tsconfig.spec.json .
+COPY tslint.json .
 COPY src src
 RUN npm install
 RUN npm run build-prod
