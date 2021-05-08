@@ -7,6 +7,7 @@ COPY tsconfig.spec.json .
 COPY tslint.json .
 COPY src src
 RUN npm install
+RUN ["npm","install","-g" ,"angular@cli"]
 RUN ["npm", "run", "build-prod"]
 
 FROM httpd:2.4.37
