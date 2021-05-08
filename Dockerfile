@@ -7,7 +7,7 @@ COPY tsconfig.spec.json .
 COPY tslint.json .
 COPY src src
 RUN npm install
-RUN ["./node_modules/angular/cli/bin/ng", "build","--prod"]
+RUN ["./node_modules/@angular/cli/bin/ng", "build","--prod"]
 
 FROM httpd:2.4.37
 EXPOSE 80
