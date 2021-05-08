@@ -1,13 +1,15 @@
 FROM node:14-alpine as build
-COPY package.json package-lock.json .
+WORKDIR /var/app
+COPY package.json package-lock.json ./
 RUN npm install
 COPY . .
+RUN npm install -g @angular/cli
 RUN npm run build-prod
 
 FROM httpd:2.4.37
 EXPOSE 80
 WORKDIR /usr/local/apache2/htdocs/
-COPY --from=build dist/capitalize-front .
+COPY --from=build /var/app/dist/capitalize-front .
 COPY ./httpd.conf /usr/local/apache2/conf/httpd.conf
 RUN touch ./.htaccess
 RUN echo "<IfModule mod_rewrite.c>\n \
