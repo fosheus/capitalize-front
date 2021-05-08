@@ -1,13 +1,8 @@
 FROM node:14-alpine as build
-COPY package.json .
-COPY angular.json .
-COPY tsconfig.app.json .
-COPY tsconfig.json .
-COPY tsconfig.spec.json .
-COPY tslint.json .
-COPY src src
+COPY package.json package-lock.json .
 RUN npm install
-RUN ["./node_modules/@angular/cli/bin/ng", "build","--prod"]
+COPY . .
+RUN npm run build-prod
 
 FROM httpd:2.4.37
 EXPOSE 80
