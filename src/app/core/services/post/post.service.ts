@@ -23,6 +23,7 @@ export class PostService {
     params = this.checkValueService.hasNumberValue(page) ? params.append('page', String(page)) : params;
     params = this.checkValueService.hasStringValue(owner) ? params.append('owner', owner) : params;
     params = this.checkValueService.hasArrayValue(tags) ? params.append('tags', tags.join(',')) : params;
+    params = params.append("coucou", "salut,oups");
 
     return this.http.get<Post[]>(`api/posts`, { params });
   }

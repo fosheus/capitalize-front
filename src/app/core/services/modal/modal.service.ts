@@ -10,7 +10,7 @@ export class ModalService {
 
   constructor(private dialog: MatDialog) { }
 
-  alert(width: string, title: string, content: string, okButton: string, koButton?: string): Observable<any> {
+  alert(width: any, title: string, content: string, okButton: string, koButton?: string): Observable<any> {
     const data: any = { title, content, okButton, koButton };
     data.titleStyle = 'color:red';
     data.title = 'Attention : ' + title;
@@ -21,11 +21,21 @@ export class ModalService {
     return dialogRef.afterClosed();
   }
 
-  info(width: string, title: string, content: string, okButton: string, koButton?: string): Observable<any> {
+  info(width: any, title: string, content: string, okButton: string, koButton?: string): Observable<any> {
     const data: any = { title, content, okButton, koButton };
     data.titleStyle = 'color:blue';
     const dialogRef = this.dialog.open(GenericDialog, {
       width,
+      data
+    });
+
+    return dialogRef.afterClosed();
+  }
+
+  serverError(message: string): Observable<any> {
+    const data: any = { title: 'Une erreur est survenue', content: message, okButton: 'OK' };
+    data.titleStyle = 'color:#990000';
+    const dialogRef = this.dialog.open(GenericDialog, {
       data
     });
 

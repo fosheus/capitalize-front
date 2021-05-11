@@ -1,9 +1,10 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatChipInputEvent } from '@angular/material/chips';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ActivatedRoute, Router, UrlSegment } from '@angular/router';
 import { forkJoin, Observable } from 'rxjs';
+import { defaultIfEmpty } from 'rxjs/internal/operators/defaultIfEmpty';
 import { PostFile } from 'src/app/core/models/post-file.model';
 import { PostTag } from 'src/app/core/models/post-tag.model';
 import { Post } from 'src/app/core/models/post.model';
@@ -14,6 +15,7 @@ import { ModalService } from 'src/app/core/services/modal/modal.service';
 import { PostService } from 'src/app/core/services/post/post.service';
 import { AddFileDialog } from '../../dialogs/add-file-dialog/add-file.dialog';
 import { DeleteFileDialog } from '../../dialogs/delete-file-dialog/delete-file.dialog';
+import { SpinnerDialog } from '../../dialogs/spinner-dialog/spinner.dialog';
 
 @Component({
   selector: 'app-post-details',
@@ -197,8 +199,12 @@ export class PostDetailsComponent implements OnInit {
     dialogRef.afterClosed().subscribe((value) => {
       if (value) {
         const file = this.files.at(index).value;
-        file.deleted = true;
-        this.files.at(index).setValue(file);
+        if (file.id) {
+          file.deleted = true;
+          this.files.at(index).setValue(file);
+        } else {
+          this.files.removeAt(index);
+        }
       }
     });
   }
@@ -241,7 +247,6 @@ export class PostDetailsComponent implements OnInit {
       return;
     }
     const postToSave: Post = Object.assign({}, this.postForm.value);
-    postToSave.files = [];
 
     let subscription: Observable<Post>;
     if (this.state === 'CREATE') {
@@ -249,6 +254,11 @@ export class PostDetailsComponent implements OnInit {
     } else {
       subscription = this.postService.update(postToSave);
     }
+    let dialogRef: MatDialogRef<SpinnerDialog> = this.dialog.open(SpinnerDialog, {
+      panelClass: 'transparent',
+      disableClose: true
+    });
+
     subscription.subscribe(post => {
       const postWithFiles: Post = Object.assign({}, this.postForm.value);
 
@@ -261,12 +271,19 @@ export class PostDetailsComponent implements OnInit {
       const updateFilesObservables = updatedFiles.map(f => this.postService.updateFile(post.id, f)); // files that existed and are modified and not deleted
       const createFilesObservables = createdFiles.map(f => this.postService.createFile(post.id, f)); // files that are created
 
-      forkJoin(deleteFilesObservables).subscribe(() => forkJoin([updateFilesObservables, createFilesObservables]).subscribe(
+      forkJoin(deleteFilesObservables).pipe(defaultIfEmpty()).subscribe(() => forkJoin([...updateFilesObservables, ...createFilesObservables]).pipe(defaultIfEmpty()).subscribe(
+        () => {
+          if (this.state === 'CREATE') {
+            this.router.navigateByUrl('/post/edit/' + post.id);
+          } else {
+            this.loadPost();
+          }
+        }, error => { }, () => dialogRef.close()
 
-      ));
+      ), error => dialogRef.close());
 
       this.router.navigateByUrl('post/edit/' + post.id)
-    });
+    }, error => dialogRef.close());
 
   }
 

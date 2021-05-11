@@ -11,4 +11,9 @@ body {
     font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
+.transparent .mat-dialog-container {
+    box-shadow: none;
+    background: rgba(0, 0, 0, 0.0);
+}
+
 @import '~highlight.js/styles/github.css';
