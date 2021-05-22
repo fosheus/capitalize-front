@@ -1,3 +1,4 @@
+import { NgZone } from '@angular/core';
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatChipInputEvent } from '@angular/material/chips';
@@ -63,8 +64,7 @@ export class PostDetailsComponent implements OnInit {
     private fileService: FileService,
     private authService: AuthenticationService,
     private dialog: MatDialog,
-    private modalService: ModalService
-  ) { }
+    private modalService: ModalService) { }
 
   ngOnInit(): void {
     const state = this.route.snapshot.url;
@@ -236,7 +236,7 @@ export class PostDetailsComponent implements OnInit {
   }
 
 
-  public savePost() {
+  public async savePost() {
 
     if (!this.postForm.valid) {
       this.modalService.info('500px', 'Le formulaire n\'est pas valide', 'Veillez verifier que toutes les informations requises sont saisie', 'OK');
@@ -259,7 +259,8 @@ export class PostDetailsComponent implements OnInit {
       disableClose: true
     });
 
-    subscription.subscribe(post => {
+    try {
+      const postSaved = await subscription.toPromise();
       const postWithFiles: Post = Object.assign({}, this.postForm.value);
 
       // map files to observables
@@ -267,23 +268,21 @@ export class PostDetailsComponent implements OnInit {
       const deletedFiled = postWithFiles.files.filter(f => f.deleted && f.id);
       const updatedFiles = postWithFiles.files.filter(f => f.modified && f.id && !f.deleted);
       const createdFiles = postWithFiles.files.filter(f => f.modified && !f.id && !f.deleted);
-      const deleteFilesObservables = deletedFiled.map(f => this.postService.deleteFile(post.id, f.id)); //files that existed and are deleted
-      const updateFilesObservables = updatedFiles.map(f => this.postService.updateFile(post.id, f)); // files that existed and are modified and not deleted
-      const createFilesObservables = createdFiles.map(f => this.postService.createFile(post.id, f)); // files that are created
+      const deleteFilesObservables = deletedFiled.map(f => this.postService.deleteFile(postSaved.id, f.id)); //files that existed and are deleted
+      const updateFilesObservables = updatedFiles.map(f => this.postService.updateFile(postSaved.id, f)); // files that existed and are modified and not deleted
+      const createFilesObservables = createdFiles.map(f => this.postService.createFile(postSaved.id, f)); // files that are created
 
-      forkJoin(deleteFilesObservables).pipe(defaultIfEmpty()).subscribe(() => forkJoin([...updateFilesObservables, ...createFilesObservables]).pipe(defaultIfEmpty()).subscribe(
-        () => {
-          if (this.state === 'CREATE') {
-            this.router.navigateByUrl('/post/edit/' + post.id);
-          } else {
-            this.loadPost();
-          }
-        }, error => { }, () => dialogRef.close()
+      await forkJoin(deleteFilesObservables).pipe(defaultIfEmpty()).toPromise();
+      await forkJoin([...updateFilesObservables, ...createFilesObservables]).pipe(defaultIfEmpty()).toPromise();
+      if (this.state === 'CREATE') {
+        this.router.navigateByUrl('/post/edit/' + postSaved.id);
+      } else {
+        this.loadPost();
+      }
 
-      ), error => dialogRef.close());
-
-      this.router.navigateByUrl('post/edit/' + post.id)
-    }, error => dialogRef.close());
+    } finally {
+      dialogRef.close();
+    }
 
   }
 

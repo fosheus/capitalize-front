@@ -6,8 +6,13 @@
 .label-file {
     cursor: pointer;
     font-weight: bold;
+    padding: 5px;
+    background-color: white;
+    color: #375c51;
+    border-radius: 5px;
 }
 
 .label-file:hover {
-    color: #375c51;
+    color: white;
+    background-color: #375c51;
 }
