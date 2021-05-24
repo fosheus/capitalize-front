@@ -1,6 +1,6 @@
 <mat-card fxLayout="column">
     <div fxLayout="row" fxLayoutAlign="none center" fxLayoutGap="1rem">
-        <span>{{post.title}}</span>
+        <span>{{post.title}}</span><span class="user-text" *ngIf=" post.validated"> <mat-icon class="icon-check" *ngIf="post.validated"> check_circle</mat-icon></span>
         <mat-chip-list fxLayout="row wrap">
             <mat-chip *ngFor="let tag of post.tags">{{tag.label}}</mat-chip>
         </mat-chip-list>

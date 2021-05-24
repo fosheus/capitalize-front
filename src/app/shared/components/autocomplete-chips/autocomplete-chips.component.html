@@ -1,0 +1,15 @@
+<mat-form-field fxFlex>
+    <mat-label>{{label}}</mat-label>
+    <mat-chip-list #chipList>
+        <mat-chip *ngFor="let element of elements; let i=index" (removed)="removeElement(i)">
+            {{element}}
+            <mat-icon matChipRemove>cancel</mat-icon>
+        </mat-chip>
+        <input [placeholder]="placeholder" #input [formControl]="inputControl" [matAutocomplete]="auto" [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes" (matChipInputTokenEnd)="addElement($event)">
+    </mat-chip-list>
+    <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectOption($event)">
+        <mat-option *ngFor="let option of autoCompleteOptions | async" [value]="option">
+            {{option}}
+        </mat-option>
+    </mat-autocomplete>
+</mat-form-field>

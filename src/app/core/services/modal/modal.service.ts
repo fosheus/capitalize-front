@@ -23,7 +23,7 @@ export class ModalService {
 
   info(width: any, title: string, content: string, okButton: string, koButton?: string): Observable<any> {
     const data: any = { title, content, okButton, koButton };
-    data.titleStyle = 'color:blue';
+    data.titleStyle = 'color:#3f51b5';
     const dialogRef = this.dialog.open(GenericDialog, {
       width,
       data

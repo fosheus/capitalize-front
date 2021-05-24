@@ -5,6 +5,8 @@ import { PostConsultComponent } from './components/post-consult/post-consult.com
 import { HomeComponent } from './components/home/home.component';
 import { MainComponent } from './components/main/main.component';
 import { PostDetailsComponent } from './components/post-details/post-details.component';
+import { ValidatePostsComponent } from './components/validate-posts/validate-posts.component';
+import { ManageUsersComponent } from './components/manage-users/manage-users.component';
 
 const routes: Routes = [
   {
@@ -13,7 +15,9 @@ const routes: Routes = [
       { path: '', redirectTo: 'home', pathMatch: 'full' },
       { path: 'post/create', component: PostDetailsComponent },
       { path: 'post/edit/:id', component: PostDetailsComponent },
-      { path: 'post/:id', component: PostConsultComponent }
+      { path: 'post/:id', component: PostConsultComponent },
+      { path: 'validate-posts', component: ValidatePostsComponent },
+      { path: 'users', component: ManageUsersComponent }
     ]
   }];
 

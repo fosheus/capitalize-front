@@ -8,9 +8,9 @@ import { PostTag } from '../../../core/models/post-tag.model'
   templateUrl: './post-resume-list.component.html',
   styleUrls: ['./post-resume-list.component.scss']
 })
-export class PostResumeListComponent implements OnInit {
+export class PostListComponent implements OnInit {
 
-  @Input() public posts: Post[];
+  @Input() public posts: Post[] = [];
 
   constructor(private router: Router) { }
 

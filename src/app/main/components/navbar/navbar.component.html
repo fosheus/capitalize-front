@@ -1,0 +1,20 @@
+<div fxLayout="row" fxLayoutAlign="space-between start" class="center-content">
+    <div fxLayout="row" fxLayoutGap="2rem" fxLayoutAlign="start center">
+        <span class="title">Capitalize</span>
+        <div fxLayout="row">
+            <span class="link" routerLink="/home" routerLinkActive="is-active">HOME</span>
+            <div class="vertical-divider"></div>
+            <span class="link" routerLinkActive="is-active" (click)="optionClicked()"> VALIDATION</span>
+            <div class="vertical-divider"></div>
+            <span class="link" routerLinkActive="is-active" (click)="optionClicked()">UTILISATEURS</span>
+
+        </div>
+    </div>
+    <div>
+        <button mat-mini-fab [matMenuTriggerFor]="accountMenu"><mat-icon>account_circle</mat-icon></button>
+        <mat-menu #accountMenu yPosition="below" xPosition="before">
+            <button mat-menu-item (click)="clickAccount()">Mon compte</button>
+            <button mat-menu-item (click)="disconnect()">Déconnexion</button>
+        </mat-menu>
+    </div>
+</div>

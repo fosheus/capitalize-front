@@ -1,12 +1,32 @@
-<div fxLayout="column">
+<div fxLayout="column" fxLayoutGap="1rem" style="margin: 0 1rem 0 1rem;">
+    <h1>Filtres</h1>
     <mat-card>
-        <h2>Filters</h2>
-        <button mat-fab button color="primary" class="add-button" (click)="addPost()">
-                <mat-icon>add</mat-icon>
-            </button>
+        <div fxLayout="row" fxLayoutAlign="space-between end">
+            <form fxFlex="50" [formGroup]="searchForm" fxLayout="column" fxFlexAlign="center" fxLayoutGap="1rem" (ngSubmit)="onSubmit()" style="min-width: 500px; max-width: 100%;">
+                <mat-form-field>
+                    <mat-label>Créé par</mat-label>
+                    <input type="text" placeholder="Saisir un pseudo" matInput formControlName="owner" [matAutocomplete]="autoCompleteOwner">
+                    <mat-autocomplete #autoCompleteOwner="matAutocomplete">
+                        <mat-option *ngFor="let option of autoCompleteOwnerOptions | async" [value]="option">
+                            {{option}}
+                        </mat-option>
+                    </mat-autocomplete>
+                </mat-form-field>
+
+                <app-autocomplete-chips placeholder="Ajouter une tag..." label="Tags" [limit]="TAG_LIMIT" [service]="serviceTag" (newElementEvent)="addTag($event)" (removeElementEvent)="removeTag($event)"></app-autocomplete-chips>
+
+                <button mat-raised-button mat-button color="primary" type="submit" style="max-width:100px">Rechercher</button>
+            </form>
+
+            <button mat-fab color="primary" class="add-button" (click)="addPost()">
+            <mat-icon>add</mat-icon>
+        </button>
+        </div>
     </mat-card>
+    <div class="divider"></div>
     <h1>Posts</h1>
-    <app-post-resume-list [posts]="posts">
+    <mat-paginator [length]="length" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions" (page)="pageChanged($event)"></mat-paginator>
+    <app-post-resume-list *ngIf="posts" [posts]="posts">
     </app-post-resume-list>
 
 </div>

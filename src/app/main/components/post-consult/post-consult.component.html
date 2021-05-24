@@ -6,8 +6,11 @@
         <button mat-button mat-flat-button class="button-edit" *ngIf="(post && me.id === post.owner.id) || me.profile.label === 'ADMIN' || me.profile.label === 'ARCHITECT'" (click)="editPost()">
             <mat-icon>edit</mat-icon>Editer
         </button>
-        <button mat-button mat-flat-button class="button-validate" *ngIf="me.profile.label === 'ADMIN' || me.profile.label === 'ARCHITECT'" (click)="validatePost()">
+        <button mat-button mat-flat-button class="button-validate" *ngIf="me.profile.label === 'ADMIN' || me.profile.label === 'ARCHITECT' && !post.validated" (click)="validatePost()">
             <mat-icon>check</mat-icon>Valider
+        </button>
+        <button mat-button mat-flat-button class="button-unvalidate" *ngIf="me.profile.label === 'ADMIN' || me.profile.label === 'ARCHITECT' && post.validated" (click)="unvalidatePost()">
+            <mat-icon>cancel</mat-icon>Invalider
         </button>
         <button mat-button mat-flat-button class="button-delete" *ngIf="me.profile.label === 'ADMIN'" (click)="deletePost()">
             <mat-icon>delete</mat-icon>Supprimer

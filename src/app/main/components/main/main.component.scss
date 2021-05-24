@@ -8,18 +8,20 @@
 .footer-header-content {
     width: 100%;
     background-color: black;
-    height: 2rem;
     color: white;
     padding-top: 0.5rem;
     padding-bottom: 0.5rem;
 }
 
-.content {
+.center-content {
     flex: 1 0 auto;
     width: 80%;
     margin-right: auto;
     margin-left: auto;
-    background-color: #f2f2f2;
+    padding-top: 1rem;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    background-color: #f9f9f9;
 }
 
 footer {

@@ -11,16 +11,14 @@ import { environment } from 'src/environments/environment';
 })
 export class AuthenticationService {
 
-  private loggedIn: boolean;
-  private user: User;
+  private user: User | null;
 
 
   constructor(private http: HttpClient, private router: Router) {
   }
 
   isLoggedIn(): boolean {
-    const token = localStorage.getItem('access-token');
-    return token != null;
+    return localStorage.getItem('access-token') !== null;
   }
 
   me(): Observable<User> {
@@ -34,9 +32,6 @@ export class AuthenticationService {
       if (header) {
         const token = header.replace('Bearer ', '');
         localStorage.setItem('access-token', token);
-        this.loggedIn = true;
-      } else {
-        this.loggedIn = false;
       }
     }));
   }

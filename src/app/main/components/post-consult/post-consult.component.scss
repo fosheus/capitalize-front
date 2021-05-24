@@ -17,17 +17,11 @@ section {
 
 .divider {
     margin: 2rem 1rem 2rem 1rem;
-    border-top: 0.1rem  solid #bbb;
+    border-top: 0.1rem solid #bbb;
 }
-
-.icon-check {
-    color : #6eb16d;
-}
-
 
 .button-back {
     background-color: #b1b1b1;
-
 }
 
 .button-edit {
@@ -36,10 +30,12 @@ section {
 
 .button-delete {
     background-color: #cf5d5d;
-
 }
-
 
 .button-validate {
     background-color: #6eb16d;
+}
+
+.button-unvalidate {
+    background-color: #c49550;
 }

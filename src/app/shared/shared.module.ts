@@ -15,6 +15,9 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatDialogModule, MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
 import { MatListModule } from '@angular/material/list';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 
 import { HighlightModule, HIGHLIGHT_OPTIONS } from 'ngx-highlightjs';
@@ -23,6 +26,7 @@ import { registerLocaleData } from '@angular/common';
 import localeFr from '@angular/common/locales/fr';
 import { FilterObjectPipe } from './pipes/filter-object/filter-object.pipe';
 import { FilterControlPipe } from './pipes/filter-control/filter-control.pipe';
+import { AutocompleteChipsComponent } from './components/autocomplete-chips/autocomplete-chips.component';
 
 registerLocaleData(localeFr, 'fr');
 
@@ -39,11 +43,14 @@ const MATERIAL_MODULES = [
   MatButtonToggleModule,
   MatDialogModule,
   MatListModule,
-  MatProgressSpinnerModule
+  MatProgressSpinnerModule,
+  MatAutocompleteModule,
+  MatMenuModule,
+  MatPaginatorModule
 ]
 
 @NgModule({
-  declarations: [FilterObjectPipe, FilterControlPipe],
+  declarations: [FilterObjectPipe, FilterControlPipe, AutocompleteChipsComponent],
   imports: [
     CommonModule,
     ReactiveFormsModule,
@@ -62,6 +69,7 @@ const MATERIAL_MODULES = [
     HighlightModule,
     FilterObjectPipe,
     FilterControlPipe,
+    AutocompleteChipsComponent,
     ...MATERIAL_MODULES
   ],
   providers: [{ provide: HIGHLIGHT_OPTIONS, useValue: { fullLibraryLoader: () => import('highlight.js') } }, { provide: LOCALE_ID, useValue: 'fr' }, { provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: { hasBackdrop: false } }

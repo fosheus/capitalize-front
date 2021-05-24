@@ -6,6 +6,7 @@ import { environment } from 'src/environments/environment';
 import { CheckValueService } from '../check-value/check-value.service';
 import { Observable } from 'rxjs';
 import { PostFile } from '../../models/post-file.model';
+import { Page } from '../../models/page.model';
 
 @Injectable({
   providedIn: 'root'
@@ -18,14 +19,14 @@ export class PostService {
 
   }
 
-  getAllByCriteria(tags: string[], owner: string, page: number): Observable<Post[]> {
+  getAllByCriteria(tags: string[], owner: string, pageIndex: number, pageSize: number): Observable<Page<Post>> {
     let params = new HttpParams();
-    params = this.checkValueService.hasNumberValue(page) ? params.append('page', String(page)) : params;
+    params = this.checkValueService.hasNumberValue(pageIndex) ? params.append('pageIndex', String(pageIndex)) : params;
+    params = this.checkValueService.hasNumberValue(pageSize) ? params.append('pageSize', String(pageSize)) : params;
     params = this.checkValueService.hasStringValue(owner) ? params.append('owner', owner) : params;
     params = this.checkValueService.hasArrayValue(tags) ? params.append('tags', tags.join(',')) : params;
-    params = params.append("coucou", "salut,oups");
 
-    return this.http.get<Post[]>(`api/posts`, { params });
+    return this.http.get<Page<Post>>(`api/posts`, { params });
   }
 
   getOne(id: number): Observable<Post> {
@@ -42,6 +43,10 @@ export class PostService {
 
   validate(id: number): Observable<Post> {
     return this.http.patch<Post>(`api/posts/${id}/validate`, null);
+  }
+
+  unvalidate(id: number): Observable<Post> {
+    return this.http.patch<Post>(`api/posts/${id}/unvalidate`, null);
   }
 
   delete(id: number): Observable<any> {

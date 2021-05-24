@@ -1,11 +1,14 @@
-import { NgZone } from '@angular/core';
+import { COMMA, ENTER } from '@angular/cdk/keycodes';
+import { ElementRef, NgZone } from '@angular/core';
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ActivatedRoute, Router, UrlSegment } from '@angular/router';
-import { forkJoin, Observable } from 'rxjs';
+import { forkJoin, Observable, of } from 'rxjs';
 import { defaultIfEmpty } from 'rxjs/internal/operators/defaultIfEmpty';
+import { tap } from 'rxjs/operators';
 import { PostFile } from 'src/app/core/models/post-file.model';
 import { PostTag } from 'src/app/core/models/post-tag.model';
 import { Post } from 'src/app/core/models/post.model';
@@ -13,6 +16,7 @@ import { User } from 'src/app/core/models/user.model';
 import { AuthenticationService } from 'src/app/core/services/authentication/authentication.service';
 import { FileService } from 'src/app/core/services/file/file.service';
 import { ModalService } from 'src/app/core/services/modal/modal.service';
+import { PostTagService } from 'src/app/core/services/post-tag/post-tag.service';
 import { PostService } from 'src/app/core/services/post/post.service';
 import { AddFileDialog } from '../../dialogs/add-file-dialog/add-file.dialog';
 import { DeleteFileDialog } from '../../dialogs/delete-file-dialog/delete-file.dialog';
@@ -35,8 +39,6 @@ export class PostDetailsComponent implements OnInit {
 
   public me: User;
 
-
-
   public postForm = new FormGroup({
     title: new FormControl('', [Validators.required]),
     tags: new FormArray([], [Validators.required]),
@@ -51,6 +53,10 @@ export class PostDetailsComponent implements OnInit {
   get tags(): FormArray {
     return this.postForm.get('tags') as FormArray;
   }
+  get serviceTag(): PostTagService {
+    return this.tagService;
+  }
+  public TAG_LIMIT = 5;
 
   addTabForm = new FormGroup({
     tabName: new FormControl('', [Validators.required]),
@@ -64,7 +70,8 @@ export class PostDetailsComponent implements OnInit {
     private fileService: FileService,
     private authService: AuthenticationService,
     private dialog: MatDialog,
-    private modalService: ModalService) { }
+    private modalService: ModalService,
+    private tagService: PostTagService) { }
 
   ngOnInit(): void {
     const state = this.route.snapshot.url;
@@ -215,21 +222,17 @@ export class PostDetailsComponent implements OnInit {
     this.files.at(index).setValue(file);
   }
 
-  deleteTag(index: number) {
-    this.tags.removeAt(index);
+  removeTag(event: number) {
+    this.tags.removeAt(event);
   }
 
-  addTag(event: MatChipInputEvent) {
-    if (event.value) {
+  addTag(event: string) {
+    if (event) {
       let tag = new PostTag();
-      tag.label = event.value;
+      tag.label = event;
       this.tags.push(this.mapTagToFormGroup(tag));
     }
-    if (event.input) {
-      event.input.value = '';
-    }
   }
-
 
   public return() {
     this.router.navigateByUrl('/home');

@@ -1,0 +1,31 @@
+.vertical-divider {
+    margin: 0 1rem 0 1rem;
+    border-left: 0.1rem solid #bbb;
+}
+
+.navbar {
+    color: white;
+}
+
+.title {
+    font-size: 1.5rem;
+    font-weight: 500;
+}
+
+.link {
+    padding: 0.5rem;
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+.center-content {
+    flex: 1 0 auto;
+    width: 80%;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.is-active {
+    background-color: #444444;
+    border-radius: 3px;
+}

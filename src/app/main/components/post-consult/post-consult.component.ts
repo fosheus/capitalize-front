@@ -79,6 +79,10 @@ export class PostConsultComponent implements OnInit {
     this.postService.validate(this.postId).subscribe(post => this.post = post);
   }
 
+  public unvalidatePost(): void {
+    this.postService.unvalidate(this.postId).subscribe(post => this.post = post);
+  }
+
   public deletePost(): void {
 
   }

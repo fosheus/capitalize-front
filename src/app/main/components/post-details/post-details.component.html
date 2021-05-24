@@ -4,7 +4,7 @@
         <mat-icon>keyboard_arrow_left</mat-icon>Retour
     </button>
         <ng-container *ngIf="me">
-            <button mat-button mat-flat-button class="button-save" *ngIf="(post && me.id === post.owner.id) || me.profile.label === 'ADMIN' || me.profile.label === 'ARCHITECT'" (click)="savePost()">
+            <button mat-button mat-flat-button class="button-save" *ngIf="(post && me.id === post.owner.id) || me.profile.label === 'ADMIN' || me.profile.label === 'ARCHITECT' || state==='CREATE'" (click)="savePost()">
             <mat-icon>save</mat-icon>Enregistrer
         </button>
             <button mat-button mat-flat-button class="button-validate" *ngIf="me.profile.label === 'ADMIN' || me.profile.label === 'ARCHITECT' && state==='EDIT'" (click)="validatePost()">
@@ -19,23 +19,17 @@
     </div>
     <div class="post-form">
         <form [formGroup]="postForm" fxLayout="column" fxFlexAlign="center" fxLayoutGap="1rem">
-            <div class="user-text" *ngIf="state==='EDIT' && post">Créé par {{post.owner.username}} le {{post.createdAt | date :'short' :'UTC +1' :'fr'}}
-            </div>
+            <span class="user-text" *ngIf="state==='EDIT' && post">Créé par {{post.owner.username}} le {{post.createdAt | date :'short' :'UTC +1' :'fr'}}
+            </span>
+            <span class="user-text" *ngIf="state==='EDIT' && post && post.validated"> <mat-icon class="icon-check" *ngIf="post.validated"> check_circle</mat-icon>
+                Validé par {{post.validator.username}} le {{post.createdAt | date :'short' :'UTC +1' :'fr'}}
+            </span>
             <mat-form-field>
                 <mat-label>Titre</mat-label>
                 <input matInput formControlName="title">
             </mat-form-field>
 
-            <mat-form-field>
-
-                <mat-label>Tags</mat-label>
-                <mat-chip-list #tagChipList formArrayName="tags">
-                    <mat-chip *ngFor="let tag of tags.controls; let i=index" [formGroupName]="i">{{tag.value.label}}
-                        <mat-icon (click)="deleteTag(i)" class="delete-tag">cancel</mat-icon>
-                    </mat-chip>
-                    <input [matChipInputFor]="tagChipList" (matChipInputTokenEnd)="addTag($event)" placeholder="Saisir des tags et valider avec 'Entrée'">
-                </mat-chip-list>
-            </mat-form-field>
+            <app-autocomplete-chips placeholder="Ajouter une tag..." label="Tags" [limit]="TAG_LIMIT" [service]="serviceTag" (newElementEvent)="addTag($event)" (removeElementEvent)="removeTag($event)"></app-autocomplete-chips>
 
             <mat-form-field class="description-textarea">
                 <mat-label>Description</mat-label>
