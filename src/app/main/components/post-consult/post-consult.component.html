@@ -42,7 +42,9 @@
     </section>
     <section *ngIf="post && post.files && post.files.length>0">
         <h3>Fichiers</h3>
-        <mat-tab-group>
+        <app-file-tree *ngIf="post.files" [files]="post.files" (fileClicked)="displaySelectedFile($event)"></app-file-tree>
+
+        <mat-tab-group [selectedIndex]="selectedTab">
             <mat-tab *ngFor="let file of post.files" [label]="file.path">
                 <div *ngIf="file && file.type==='TEXT'">
                     <pre>

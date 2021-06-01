@@ -33,5 +33,9 @@ export class FileService {
     return this.http.put(`api/files/${fileId}/binary`, {});
   }
 
+  pathsFromFullPath(fullPath: string): string[] {
+    return fullPath.split(/[\/\\]/);
+  }
+
 
 }

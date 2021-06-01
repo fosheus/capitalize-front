@@ -58,7 +58,7 @@ export class PostService {
   }
 
   updateFile(postId: number, fileDto: PostFile) {
-    return this.http.post<PostFile>(`api/posts/${postId}/files/${fileDto.id}`, this.prepareFormData(fileDto));
+    return this.http.put<PostFile>(`api/posts/${postId}/files/${fileDto.id}`, this.prepareFormData(fileDto));
   }
 
   private prepareFormData(fileDto: PostFile) {

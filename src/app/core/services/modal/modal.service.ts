@@ -10,7 +10,7 @@ export class ModalService {
 
   constructor(private dialog: MatDialog) { }
 
-  alert(width: any, title: string, content: string, okButton: string, koButton?: string): Observable<any> {
+  alert(width: any, title: string, content: string, okButton: string = 'OK', koButton?: string): Observable<any> {
     const data: any = { title, content, okButton, koButton };
     data.titleStyle = 'color:red';
     data.title = 'Attention : ' + title;

@@ -8,6 +8,7 @@ export class PostFile {
     public binary?: File;
     public modified?= false;
     public deleted?= false;
+    public paths: any[] = []
     constructor() {
     }
 

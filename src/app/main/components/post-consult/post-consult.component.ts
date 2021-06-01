@@ -18,6 +18,7 @@ export class PostConsultComponent implements OnInit {
   public post: Post;
   private postId: number;
   public me: User;
+  public selectedTab = 0;
 
 
   constructor(
@@ -47,6 +48,8 @@ export class PostConsultComponent implements OnInit {
   loadPost(): void {
     this.postService.getOne(this.postId).subscribe(async post => {
       this.post = post;
+      this.sortFiles();
+
       if (this.post.files) {
         this.post.files.forEach(file => {
           if (file.type === 'TEXT') {
@@ -56,6 +59,19 @@ export class PostConsultComponent implements OnInit {
         });
       }
     });
+  }
+
+  private sortFiles() {
+    this.post.files.sort((a, b) => a.path.localeCompare(b.path));
+  }
+
+  displaySelectedFile(event: string) {
+    const index = this.post.files.findIndex(f => f.path === event);
+    if (index === -1) {
+      return;
+    }
+
+    this.selectedTab = index;
   }
 
 

@@ -1,6 +1,6 @@
 <div class="page" fxLayout="column" fxLayoutAlign="stretch">
     <div class="actions" fxLayout="row" fxLayoutGap="1rem">
-        <button mat-button mat-flat-button class="button-back" (click)="return()">
+        <button mat-button mat-flat-button class="button-back" (click)="goBackHome()">
         <mat-icon>keyboard_arrow_left</mat-icon>Retour
     </button>
         <ng-container *ngIf="me">
@@ -38,6 +38,7 @@
 
             <div>
                 <h3>Fichiers</h3>
+                <app-file-tree *ngIf="files.value" [files]="files.value" (fileClicked)="displaySelectedFile($event)"></app-file-tree>
 
                 <div fxLayout="row" fxLayoutAlign="start center">
                     <form [formGroup]="addTabForm" (ngSubmit)="addFileTab()" fxFlex="30">
@@ -66,7 +67,7 @@
                         <mat-icon class="example-tab-icon" class="delete-file" (click)="deleteFile(i)">cancel</mat-icon></span>
                     </ng-container>
                 </div>
-                <mat-tab-group formArrayName="files">
+                <mat-tab-group formArrayName="files" [selectedIndex]="selectedTab" [scrollDistance]="100">
                     <ng-container *ngFor="let file of files.controls; let i=index" [formGroupName]="i">
                         <mat-tab [label]="file.value.name" *ngIf="file.value.type==='TEXT' && !file.value.deleted">
                             <ng-template mat-tab-label>

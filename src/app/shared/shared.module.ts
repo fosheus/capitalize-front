@@ -18,6 +18,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatTreeModule } from '@angular/material/tree';
 
 
 import { HighlightModule, HIGHLIGHT_OPTIONS } from 'ngx-highlightjs';
@@ -27,6 +28,7 @@ import localeFr from '@angular/common/locales/fr';
 import { FilterObjectPipe } from './pipes/filter-object/filter-object.pipe';
 import { FilterControlPipe } from './pipes/filter-control/filter-control.pipe';
 import { AutocompleteChipsComponent } from './components/autocomplete-chips/autocomplete-chips.component';
+import { FileTreeComponent } from './components/file-tree/file-tree.component';
 
 registerLocaleData(localeFr, 'fr');
 
@@ -46,11 +48,12 @@ const MATERIAL_MODULES = [
   MatProgressSpinnerModule,
   MatAutocompleteModule,
   MatMenuModule,
-  MatPaginatorModule
+  MatPaginatorModule,
+  MatTreeModule
 ]
 
 @NgModule({
-  declarations: [FilterObjectPipe, FilterControlPipe, AutocompleteChipsComponent],
+  declarations: [FilterObjectPipe, FilterControlPipe, AutocompleteChipsComponent, FileTreeComponent],
   imports: [
     CommonModule,
     ReactiveFormsModule,
@@ -70,6 +73,7 @@ const MATERIAL_MODULES = [
     FilterObjectPipe,
     FilterControlPipe,
     AutocompleteChipsComponent,
+    FileTreeComponent,
     ...MATERIAL_MODULES
   ],
   providers: [{ provide: HIGHLIGHT_OPTIONS, useValue: { fullLibraryLoader: () => import('highlight.js') } }, { provide: LOCALE_ID, useValue: 'fr' }, { provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: { hasBackdrop: false } }

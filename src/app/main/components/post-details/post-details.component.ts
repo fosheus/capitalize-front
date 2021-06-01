@@ -1,4 +1,4 @@
-import { COMMA, ENTER } from '@angular/cdk/keycodes';
+import { A, COMMA, ENTER } from '@angular/cdk/keycodes';
 import { ElementRef, NgZone } from '@angular/core';
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
@@ -37,6 +37,8 @@ export class PostDetailsComponent implements OnInit {
   public post: Post;
   private postId: number;
 
+  public selectedTab = 0;
+
   public me: User;
 
   public postForm = new FormGroup({
@@ -61,7 +63,7 @@ export class PostDetailsComponent implements OnInit {
   addTabForm = new FormGroup({
     tabName: new FormControl('', [Validators.required]),
     tabType: new FormControl('', [Validators.required])
-  })
+  });
 
   constructor(
     private router: Router,
@@ -115,18 +117,23 @@ export class PostDetailsComponent implements OnInit {
         })),
       });
 
-      for (let i in post.files) {
-        post.files[i].modified = false;
-        if (post.files[i].type === 'TEXT') {
-          this.fileService.getOne(post.files[i].id)
+      this.sortFiles();
+
+      for (let i in this.files.value) {
+        if (this.files.value[i].type === 'TEXT') {
+          this.fileService.getOne(this.files.value[i].id)
             .subscribe(content => {
-              post.files[i].text = content.data;
               this.patchFileText(i, content.data);
             });
         }
-      };
+      }
       this.post = post;
     });
+  }
+
+  private sortFiles() {
+    const tmpFilesToSort = this.files.value as any[];
+    this.files.patchValue(tmpFilesToSort.sort((a, b) => a.path.localeCompare(b.path)));
   }
 
   private patchFileText(index: string, text: string) {
@@ -167,11 +174,21 @@ export class PostDetailsComponent implements OnInit {
 
     }
   }
+
+
   addFile(name: string, type: string, binary: File | undefined) {
+
+
     if (this.files.value.find((file: PostFile) => file.path === name) !== undefined) {
-      this.modalService.alert('', 'identifiant non unique', 'Il existe déjà un fichier avec le chemin : ' + name + '.', 'OK');
+      this.modalService.alert('', 'Identifiant non unique', 'Il existe déjà un fichier avec le chemin : ' + name + '.', 'OK');
       return;
     }
+
+    if (!this.checkPathIsNotADirectaoryOrFilename(name)) {
+      this.modalService.alert('', 'Nom de fichier identique à nom de dossier', 'Le chemin \"' + name + '\" existe déjà comme nom de dossier ou contient un nom de fichier existant', 'OK');
+    }
+
+
     if (this.forbiddenCharactersPath.find(elem => name.includes(elem)) !== undefined) {
       this.modalService.alert('', 'Chemin de fichier incorrect', 'Le chemin du fichier ne peux pas comporter les caractères suivants : ' + this.forbiddenCharactersPath.join(' '), 'OK');
       return;
@@ -186,6 +203,46 @@ export class PostDetailsComponent implements OnInit {
     file.binary = binary;
     this.files.push(this.mapFileToFormGroup(file));
 
+    this.sortFiles();
+
+  }
+
+  checkPathIsNotADirectaoryOrFilename(path: string): boolean {
+    const pathsFromName = this.fileService.pathsFromFullPath(path);
+
+    for (const file of this.files.value) {
+      const pathsFromCurrentFileName = this.fileService.pathsFromFullPath(file.path);
+      let long: string[];
+      let short: string[];
+      if (pathsFromCurrentFileName.length > pathsFromName.length) {
+        long = pathsFromCurrentFileName;
+        short = pathsFromName;
+      } else {
+        long = pathsFromName;
+        short = pathsFromCurrentFileName;
+      }
+      let index: any = 0;
+      for (index in short) {
+        console.log(short[index], long[index]);
+        if (short[index] !== long[index]) {
+          index = -1
+          break;
+        }
+      }
+      if (index !== -1) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  displaySelectedFile(event: string) {
+    const index = this.files.controls.filter(c => c.value.type === 'TEXT').findIndex(c => c.value.path === event);
+    if (index === -1) {
+      return;
+    }
+
+    this.selectedTab = index;
   }
 
   tabTypeClick(type: string) {
@@ -219,6 +276,7 @@ export class PostDetailsComponent implements OnInit {
   fileContentChanged(index: number) {
     const file = this.files.at(index).value;
     file.modified = true;
+    delete file.paths;
     this.files.at(index).setValue(file);
   }
 
@@ -234,7 +292,7 @@ export class PostDetailsComponent implements OnInit {
     }
   }
 
-  public return() {
+  public goBackHome() {
     this.router.navigateByUrl('/home');
   }
 
