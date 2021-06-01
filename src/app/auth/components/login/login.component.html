@@ -16,8 +16,8 @@
             <span *ngIf="errorLoggin" class="errorLoggin">Connexion échouée, vérifiez vos identifiants ou l'accès au
             serveur.</span>
 
-            <button mat-button mat-button-raised type="submit">Se connecter</button>
-            <a mat-button mat-raised-button type="button" [routerLink]="['/auth/sign-up']">Créer un compte</a>
+            <button mat-raised-button type="submit">Se connecter</button>
+            <a mat-button type="button" [routerLink]="['/auth/sign-up']">Créer un compte</a>
 
         </form>
     </mat-card>

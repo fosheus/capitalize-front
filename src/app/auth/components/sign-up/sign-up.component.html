@@ -1,38 +1,42 @@
-<h3>S'enregistrer</h3>
-<mat-card>
-    <form [formGroup]="signupForm" (ngSubmit)="onSubmit()">
+<div class="center">
+    <h3>S'enregistrer</h3>
+    <mat-card>
+        <form [formGroup]="signupForm" (ngSubmit)="onSubmit()" fxLayout="column" fxLayoutAlign="center" fxLayoutGap="1rem">
 
-        <label>
-            Nom:
-            <input type=" text" formControlName="lastname">
-        </label>
+            <mat-form-field>
+                <mat-label>Nom: </mat-label>
+                <input matInput type="text" formControlName="lastname">
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label> Prénom:</mat-label>
+                <input matInput type="text" formControlName="firstname">
+            </mat-form-field>
 
-        <label>
-            Prénom:
-            <input type="text" formControlName="firstname">
-        </label>
+            <mat-form-field>
+                <mat-label> Email:</mat-label>
+                <input matInput type="text" formControlName="email">
+            </mat-form-field>
 
-        <label>
-            Email:
-            <input type="text" formControlName="email">
-        </label>
+            <mat-form-field>
+                <mat-label>Identifiant:</mat-label>
+                <input matInput type="text" formControlName="username">
+            </mat-form-field>
+
+            <mat-form-field>
+                <mat-label>Mot de passe:</mat-label>
+                <input matInput type=" password" formControlName="password">
+            </mat-form-field>
+
+            <mat-form-field>
+                <mat-label> Confirmation:</mat-label>
+                <input matInput type=" password" formControlName="confirmPassword">
+            </mat-form-field>
 
 
-        <label>
-            Identifiant:
-            <input type="text" formControlName="username">
-        </label>
 
-        <label>
-            Mot de passe:
-            <input type="password" formControlName="password">
-        </label>
+            <button mat-raised-button type="submit">Confirmer</button>
+            <a mat-button type="button" [routerLink]="['/auth/login']">Annuler</a>
 
-        <label>
-            Confirmation:
-            <input type="password" formControlName="confirmPassword">
-        </label>
-
-        <button mat-raised-button mat-button type="submit">Confirmer</button>
-    </form>
-</mat-card>
+        </form>
+    </mat-card>
+</div>

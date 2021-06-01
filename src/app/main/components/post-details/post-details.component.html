@@ -67,7 +67,7 @@
                         <mat-icon class="example-tab-icon" class="delete-file" (click)="deleteFile(i)">cancel</mat-icon></span>
                     </ng-container>
                 </div>
-                <mat-tab-group formArrayName="files" [selectedIndex]="selectedTab" [scrollDistance]="100">
+                <mat-tab-group formArrayName="files" [selectedIndex]="selectedTab">
                     <ng-container *ngFor="let file of files.controls; let i=index" [formGroupName]="i">
                         <mat-tab [label]="file.value.name" *ngIf="file.value.type==='TEXT' && !file.value.deleted">
                             <ng-template mat-tab-label>
