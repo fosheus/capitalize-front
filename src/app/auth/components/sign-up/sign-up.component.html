@@ -3,18 +3,18 @@
     <mat-card>
         <form [formGroup]="signupForm" (ngSubmit)="onSubmit()" fxLayout="column" fxLayoutAlign="center" fxLayoutGap="1rem">
 
+
+            <mat-form-field>
+                <mat-label> Prénom:</mat-label>
+                <input matInput type="text" formControlName="firstname">
+            </mat-form-field>
             <mat-form-field>
                 <mat-label>Nom: </mat-label>
                 <input matInput type="text" formControlName="lastname">
             </mat-form-field>
             <mat-form-field>
-                <mat-label> Prénom:</mat-label>
-                <input matInput type="text" formControlName="firstname">
-            </mat-form-field>
-
-            <mat-form-field>
                 <mat-label> Email:</mat-label>
-                <input matInput type="text" formControlName="email">
+                <input matInput type="email" formControlName="email">
             </mat-form-field>
 
             <mat-form-field>
@@ -24,15 +24,15 @@
 
             <mat-form-field>
                 <mat-label>Mot de passe:</mat-label>
-                <input matInput type=" password" formControlName="password">
+                <input matInput type="password" formControlName="password">
             </mat-form-field>
 
             <mat-form-field>
                 <mat-label> Confirmation:</mat-label>
-                <input matInput type=" password" formControlName="confirmPassword">
+                <input matInput type="password" formControlName="confirmPassword">
             </mat-form-field>
 
-
+            <span *ngIf="errorSignup" class="errorSignup">Les champs ne sont pas correctement remplis</span>
 
             <button mat-raised-button type="submit">Confirmer</button>
             <a mat-button type="button" [routerLink]="['/auth/login']">Annuler</a>
