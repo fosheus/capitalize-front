@@ -1,4 +1,8 @@
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { MatDialogModule } from '@angular/material/dialog';
+import { RouterTestingModule } from '@angular/router/testing';
+import { PostService } from 'src/app/core/services/post/post.service';
 
 import { PostDetailsComponent } from './post-details.component';
 
@@ -8,9 +12,10 @@ describe('PostDetailsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ PostDetailsComponent ]
-    })
-    .compileComponents();
+      declarations: [PostDetailsComponent],
+      providers: [PostService],
+      imports: [RouterTestingModule, HttpClientTestingModule, MatDialogModule]
+    }).compileComponents();
   });
 
   beforeEach(() => {

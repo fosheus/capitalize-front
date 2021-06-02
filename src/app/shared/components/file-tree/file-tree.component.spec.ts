@@ -1,20 +1,22 @@
+import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { PostFile } from 'src/app/core/models/post-file.model';
 
 import { FileTreeComponent } from './file-tree.component';
 
 describe('FileTreeComponent', () => {
-  let component: FileTreeComponent;
-  let fixture: ComponentFixture<FileTreeComponent>;
+  let component: TestFileTreeComponent;
+  let fixture: ComponentFixture<TestFileTreeComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ FileTreeComponent ]
+      declarations: [FileTreeComponent, TestFileTreeComponent]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(FileTreeComponent);
+    fixture = TestBed.createComponent(TestFileTreeComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
@@ -22,4 +24,16 @@ describe('FileTreeComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  @Component({
+    selector: `app-test-file-tree`,
+    template: `<app-file-tree [files]="files"></app-file-tree>`
+  })
+  class TestFileTreeComponent {
+    public files: PostFile[] = [];
+
+    setFiles(files: PostFile[]): void {
+      this.files = files;
+    }
+  }
 });

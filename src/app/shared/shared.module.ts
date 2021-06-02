@@ -50,7 +50,7 @@ const MATERIAL_MODULES = [
   MatMenuModule,
   MatPaginatorModule,
   MatTreeModule
-]
+];
 
 @NgModule({
   declarations: [FilterObjectPipe, FilterControlPipe, AutocompleteChipsComponent, FileTreeComponent],

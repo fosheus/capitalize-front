@@ -38,18 +38,19 @@ export class AutocompleteChipsComponent implements OnInit {
     this.inputControl.valueChanges.pipe(tap((value) => {
       clearTimeout(this.timeoutSearch);
       this.timeoutSearch = setTimeout(() => {
-        this.autoCompleteOptions = value !== null && value !== undefined && value.length > 1 ? this.service.getItemsLike(value, this.limit) : of([])
+        this.autoCompleteOptions = value !== null && value !== undefined && value.length > 1 ?
+          this.service.getItemsLike(value, this.limit) : of([]);
       }, 500);
     })).subscribe();
 
   }
 
-  removeElement(index: number) {
+  removeElement(index: number): void {
     this.elements.splice(index, 1);
     this.removeElementEvent.emit(index);
   }
 
-  addElement(event: MatChipInputEvent) {
+  addElement(event: MatChipInputEvent): void {
     if (event.value && this.elements.find((e: any) => e.toLowerCase() === event.value.toLowerCase()) === undefined) {
       this.newElementEvent.emit(event.value);
       this.elements.push(event.value);
@@ -60,7 +61,7 @@ export class AutocompleteChipsComponent implements OnInit {
     }
   }
 
-  selectOption(event: MatAutocompleteSelectedEvent) {
+  selectOption(event: MatAutocompleteSelectedEvent): void {
     if (this.elements.find((e: any) => e.toLowerCase() === event.option.viewValue.toLowerCase()) === undefined) {
       this.newElementEvent.emit(event.option.viewValue);
       this.elements.push(event.option.viewValue);

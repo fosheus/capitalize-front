@@ -61,11 +61,11 @@ export class PostConsultComponent implements OnInit {
     });
   }
 
-  private sortFiles() {
+  private sortFiles(): void {
     this.post.files.sort((a, b) => a.path.localeCompare(b.path));
   }
 
-  displaySelectedFile(event: string) {
+  displaySelectedFile(event: string): void {
     const index = this.post.files.findIndex(f => f.path === event);
     if (index === -1) {
       return;

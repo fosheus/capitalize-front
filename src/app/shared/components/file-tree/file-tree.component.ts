@@ -35,18 +35,18 @@ export class TreeFileFlatNode {
 })
 export class FileTreeComponent implements OnInit {
 
-  private _files: PostFile[];
+  private pFiles: PostFile[];
 
   @Output() fileClicked = new EventEmitter<string>();
 
   @Input() set files(value: PostFile[]) {
 
-    this._files = value;
+    this.pFiles = value;
     this.filesChanged();
   }
 
   get files(): PostFile[] {
-    return this._files;
+    return this.pFiles;
   }
 
   flatNodeMap = new Map<TreeFileFlatNode, TreeFileNode>();
@@ -75,9 +75,9 @@ export class FileTreeComponent implements OnInit {
 
   getChildren = (node: TreeFileNode): TreeFileNode[] => node.children;
 
-  hasChild = (_: number, _nodeData: TreeFileFlatNode) => _nodeData.expandable;
+  hasChild = (n: number, nodeData: TreeFileFlatNode) => nodeData.expandable;
 
-  hasNoContent = (_: number, _nodeData: TreeFileFlatNode) => _nodeData.value === '';
+  hasNoContent = (n: number, nodeData: TreeFileFlatNode) => nodeData.value === '';
 
 
   transformer = (node: TreeFileNode, level: number) => {
@@ -100,12 +100,12 @@ export class FileTreeComponent implements OnInit {
   }
 
 
-  private filesChanged() {
+  private filesChanged(): void {
     this.files.sort((a, b) => a.path.localeCompare(b.path));
     this.files.forEach(f => {
       f.paths = f.path.split(/[\/\\]/);
     });
-    let unflattened: any = {};
+    const unflattened: any = {};
     for (const f of this.files) {
       f.paths.reduce((acc, currentPath, j) => {
         if (acc[currentPath]) {
@@ -114,12 +114,12 @@ export class FileTreeComponent implements OnInit {
           const node = new TreeFileNode();
           node.id = f.id;
           node.path = f.path;
-          node.value = f.paths.length - 1 == j ? f.paths[j] : '';
+          node.value = f.paths.length - 1 === j ? f.paths[j] : '';
           node.folder = f.paths.length - 1 !== j;
           acc[currentPath] = node;
           return acc[currentPath];
         }
-      }, unflattened)
+      }, unflattened);
     }
     this.dataSource.data = this.buildFileTree(unflattened, 0);
 
@@ -148,7 +148,7 @@ export class FileTreeComponent implements OnInit {
     }, []);
   }
 
-  clickFile(node: TreeFileFlatNode) {
+  clickFile(node: TreeFileFlatNode): void {
     this.fileClicked.emit(node.fullPath);
   }
 
