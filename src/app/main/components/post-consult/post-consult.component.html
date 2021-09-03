@@ -38,7 +38,7 @@
 
     <section>
         <h3>Description</h3>
-        <mat-card [innerHTML]="post.description || 'Pas de description'"></mat-card>
+        <mat-card [innerHTML]="(post.description | nl2br) || 'Pas de description'"></mat-card>
     </section>
     <section *ngIf="post && post.files && post.files.length>0">
         <h3>Fichiers</h3>
