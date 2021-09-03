@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AuthenticationService } from 'src/app/core/services/authentication/authentication.service';
 import { User } from '../../../core/models/user.model';
 
@@ -11,37 +11,24 @@ import { User } from '../../../core/models/user.model';
 })
 export class SignUpComponent implements OnInit {
 
-  signupForm = new FormGroup({
-    firstname: new FormControl('', Validators.required),
-    lastname: new FormControl('', Validators.required),
-    email: new FormControl('', [Validators.required, Validators.email]),
-    confirmPassword: new FormControl('', Validators.required),
-    username: new FormControl('', Validators.required),
-    password: new FormControl('', Validators.required)
-  });
+  errorSignUp = false;
+  signupSucceeded = false;
+  errors = '';
 
-  public errorSignup = false;
-
-  constructor(private authService: AuthenticationService, private router: Router) { }
+  constructor(private authService: AuthenticationService, private router: Router, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
   }
 
-  onSubmit(): void {
-    if (!this.signupForm.valid || this.signupForm.controls.password.value !== this.signupForm.controls.confirmPassword.value) {
-      this.errorSignup = true;
-      return;
-    }
-    const user = new User(
-      this.signupForm.controls.firstname.value,
-      this.signupForm.controls.lastname.value,
-      this.signupForm.controls.email.value,
-      this.signupForm.controls.username.value,
-      this.signupForm.controls.password.value
-    );
-    this.authService.signUp(user).subscribe(() => {
-      this.router.navigateByUrl('/auth/login');
-    }, error => this.errorSignup = true);
+  userFormSubmitted(user: User): void {
+    this.errorSignUp = true;
+    this.authService.signUp(user).subscribe(() => this.signupSucceeded = true, (error) => console.log(error));
   }
+
+  onCancel(): void {
+    this.router.navigate(['../login'], { relativeTo: this.route });
+  }
+
+
 
 }

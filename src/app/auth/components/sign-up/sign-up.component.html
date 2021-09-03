@@ -1,42 +1,11 @@
 <div class="center">
     <h3>S'enregistrer</h3>
-    <mat-card>
-        <form [formGroup]="signupForm" (ngSubmit)="onSubmit()" fxLayout="column" fxLayoutAlign="center" fxLayoutGap="1rem">
-
-
-            <mat-form-field>
-                <mat-label> Prénom:</mat-label>
-                <input matInput type="text" formControlName="firstname">
-            </mat-form-field>
-            <mat-form-field>
-                <mat-label>Nom: </mat-label>
-                <input matInput type="text" formControlName="lastname">
-            </mat-form-field>
-            <mat-form-field>
-                <mat-label> Email:</mat-label>
-                <input matInput type="email" formControlName="email">
-            </mat-form-field>
-
-            <mat-form-field>
-                <mat-label>Identifiant:</mat-label>
-                <input matInput type="text" formControlName="username">
-            </mat-form-field>
-
-            <mat-form-field>
-                <mat-label>Mot de passe:</mat-label>
-                <input matInput type="password" formControlName="password">
-            </mat-form-field>
-
-            <mat-form-field>
-                <mat-label> Confirmation:</mat-label>
-                <input matInput type="password" formControlName="confirmPassword">
-            </mat-form-field>
-
-            <span *ngIf="errorSignup" class="errorSignup">Les champs ne sont pas correctement remplis</span>
-
-            <button mat-raised-button type="submit">Confirmer</button>
-            <a mat-button type="button" [routerLink]="['/auth/login']">Annuler</a>
-
-        </form>
+    <mat-card fxLayout="column" fxLayoutAlign="center" fxLayoutGap="1rem">
+        <app-sign-up-form (formSubmit)="userFormSubmitted($event)"></app-sign-up-form>
+        <span class="error" *ngIf="errorSignUp">{{errors}}</span>
+        <a mat-button type="button" (click)="onCancel()">Annuler</a>
     </mat-card>
+    <div *ngIf="signupSucceeded">
+        Votre compte a été créé avec succès, vous pouvez désormais retourner sur <a [routerLink]="['../login']">  l'écran de connexion</a> pour vous connecter.
+    </div>
 </div>

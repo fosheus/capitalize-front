@@ -1,0 +1,37 @@
+<form [formGroup]="signupForm" (ngSubmit)="onSubmit()" fxLayout="column" fxLayoutAlign="center" fxLayoutGap="1rem">
+    <mat-form-field>
+        <mat-label> Prénom:</mat-label>
+        <input matInput type="text" formControlName="firstname">
+    </mat-form-field>
+    <mat-form-field>
+        <mat-label>Nom: </mat-label>
+        <input matInput type="text" formControlName="lastname">
+    </mat-form-field>
+    <mat-form-field>
+        <mat-label> Email:</mat-label>
+        <input matInput type="email" formControlName="email">
+    </mat-form-field>
+
+    <mat-form-field>
+        <mat-label>Identifiant:</mat-label>
+        <input matInput type="text" formControlName="username">
+    </mat-form-field>
+
+    <div>
+        * Au moins 1 majuscule<br> * Au moins 1 minuscule<br> * Au moins 1 chiffre<br> * Au moins 8 caractères
+    </div>
+    <mat-form-field>
+        <mat-label>Mot de passe:</mat-label>
+        <input matInput type="password" formControlName="password">
+    </mat-form-field>
+
+    <mat-form-field>
+        <mat-label> Confirmation:</mat-label>
+        <input matInput type="password" formControlName="confirmPassword">
+    </mat-form-field>
+
+    <span *ngIf="errorInvalidForm" class="errorSignup">Les champs ne sont pas correctement remplis.</span>
+    <button mat-raised-button type="submit">Confirmer</button>
+
+
+</form>

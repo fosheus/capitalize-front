@@ -1,0 +1,10 @@
+<div class="center">
+    <h3>Bienvenue sur Capitalize</h3>
+    <p>Veuillez créer votre compte administrateur pour pouvoir débuter.</p>
+    <mat-card fxLayout="column" fxLayoutAlign="center" fxLayoutGap="1rem">
+        <app-sign-up-form (formSubmit)="userFormSubmitted($event)"></app-sign-up-form>
+    </mat-card>
+    <div *ngIf="signupSucceeded">
+        Votre compte a été créé avec succès, vous pouvez retourner sur <a [routerLink]="['../login']">  l'écran de connexion</a> pour vous connecter.
+    </div>
+</div>
