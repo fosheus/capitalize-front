@@ -29,54 +29,54 @@
                 <input matInput formControlName="title">
             </mat-form-field>
 
-            <app-autocomplete-chips placeholder="Ajouter une tag..." label="Tags" [limit]="TAG_LIMIT" [service]="serviceTag" (newElementEvent)="addTag($event)" (removeElementEvent)="removeTag($event)"></app-autocomplete-chips>
+            <app-autocomplete-chips placeholder="Ajouter une tag..." label="Tags" [elements]="existingTags" [limit]=" TAG_LIMIT " [service]="serviceTag " (newElementEvent)="addTag($event) " (removeElementEvent)="removeTag($event) "></app-autocomplete-chips>
 
-            <mat-form-field class="description-textarea">
+            <mat-form-field class="description-textarea ">
                 <mat-label>Description</mat-label>
-                <textarea matInput formControlName="description" [matTextareaAutosize]="true" [matAutosizeMinRows]="10" style="background-color: #eeeeee; border-radius: 0.5rem;"></textarea>
+                <textarea matInput formControlName="description " [matTextareaAutosize]="true " [matAutosizeMinRows]="10 " style="background-color: #eeeeee; border-radius: 0.5rem; "></textarea>
             </mat-form-field>
 
             <div>
                 <h3>Fichiers</h3>
-                <app-file-tree *ngIf="files.value" [files]="files.value" (fileClicked)="displaySelectedFile($event)"></app-file-tree>
+                <app-file-tree *ngIf="files.value " [files]="files.value " (fileClicked)="displaySelectedFile($event) "></app-file-tree>
 
-                <div fxLayout="row" fxLayoutAlign="start center">
-                    <form [formGroup]="addTabForm" (ngSubmit)="addFileTab()" fxFlex="30">
-                        <div fxLayout="column" fxLayoutGap="1rem">
+                <div fxLayout="row " fxLayoutAlign="start center ">
+                    <form [formGroup]="addTabForm " (ngSubmit)="addFileTab() " fxFlex="30 ">
+                        <div fxLayout="column " fxLayoutGap="1rem ">
 
-                            <mat-button-toggle-group name="fontStyle" aria-label="Font Style" formControlName="tabType">
-                                <mat-button-toggle (click)="tabTypeClick('TEXT')" value="TEXT">Texte</mat-button-toggle>
-                                <mat-button-toggle (click)="tabTypeClick('OTHER')" value="OTHER">Autre (zip,exe...)</mat-button-toggle>
+                            <mat-button-toggle-group name="fontStyle " aria-label="Font Style " formControlName="tabType ">
+                                <mat-button-toggle (click)="tabTypeClick( 'TEXT') " value="TEXT ">Texte</mat-button-toggle>
+                                <mat-button-toggle (click)="tabTypeClick( 'OTHER') " value="OTHER ">Autre (zip,exe...)</mat-button-toggle>
                             </mat-button-toggle-group>
 
-                            <mat-form-field *ngIf="addTabForm.get('tabType')?.value === 'TEXT'">
+                            <mat-form-field *ngIf="addTabForm.get( 'tabType')?.value==='TEXT' ">
                                 <mat-label>Nom du fichier à ajouter (format /path/to/file.ext)</mat-label>
-                                <input matInput formControlName="tabName">
+                                <input matInput formControlName="tabName ">
                             </mat-form-field>
 
-                            <button mat-button mat-raised-button type="submit">Ajouter un fichier </button>
+                            <button mat-button mat-raised-button type="submit ">Ajouter un fichier </button>
                         </div>
                     </form>
-                    <span fxFlex="10"></span>
+                    <span fxFlex="10 "></span>
 
                 </div>
-                <div fxLayout="row wrap" fxLayoutGap="1rem" style="margin: 1rem 0 1rem 0;">
-                    <ng-container *ngFor="let file of files.value ;let i=index">
-                        <span *ngIf="file.type==='OTHER' && !file.deleted">
+                <div fxLayout="row wrap " fxLayoutGap="1rem " style="margin: 1rem 0 1rem 0; ">
+                    <ng-container *ngFor="let file of files.value ;let i=index ">
+                        <span *ngIf="file.type==='OTHER' && !file.deleted ">
                         {{file.name}}
-                        <mat-icon class="example-tab-icon" class="delete-file" (click)="deleteFile(i)">cancel</mat-icon></span>
+                        <mat-icon class="example-tab-icon " class="delete-file " (click)="deleteFile(i) ">cancel</mat-icon></span>
                     </ng-container>
                 </div>
-                <mat-tab-group formArrayName="files" [selectedIndex]="selectedTab">
-                    <ng-container *ngFor="let file of files.controls; let i=index" [formGroupName]="i">
-                        <mat-tab [label]="file.value.name" *ngIf="file.value.type==='TEXT' && !file.value.deleted">
+                <mat-tab-group formArrayName="files " [selectedIndex]="selectedTab ">
+                    <ng-container *ngFor="let file of files.controls; let i=index " [formGroupName]="i ">
+                        <mat-tab [label]="file.value.name " *ngIf="file.value.type==='TEXT' && !file.value.deleted ">
                             <ng-template mat-tab-label>
                                 {{file.value.path}}
-                                <mat-icon class="example-tab-icon" class="delete-tab" (click)="deleteFile(i)">cancel</mat-icon>
+                                <mat-icon class="example-tab-icon " class="delete-tab " (click)="deleteFile(i) ">cancel</mat-icon>
                             </ng-template>
                             <div>
-                                <mat-form-field class="description-textarea">
-                                    <textarea matInput formControlName="text" [matTextareaAutosize]="true" [matAutosizeMinRows]="50" style="background-color: #eeeeee; border-radius: 0.5rem;" (change)="fileContentChanged(i)"></textarea>
+                                <mat-form-field class="description-textarea ">
+                                    <textarea matInput formControlName="text " [matTextareaAutosize]="true " [matAutosizeMinRows]="50 " style="background-color: #eeeeee; border-radius: 0.5rem; " (change)="fileContentChanged(i) "></textarea>
                                 </mat-form-field>
                             </div>
                         </mat-tab>

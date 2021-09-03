@@ -30,7 +30,8 @@ export class PostDetailsComponent implements OnInit {
 
   public state: string;
   public post: Post;
-  private postId: number = 0;
+  private postId = 0;
+  public existingTags: string[] = [];
 
   public selectedTab = 0;
 
@@ -111,6 +112,7 @@ export class PostDetailsComponent implements OnInit {
           return this.mapFileToFormGroup(f);
         })),
       });
+      this.existingTags = post.tags.map(t => t.label);
 
       this.sortFiles();
 

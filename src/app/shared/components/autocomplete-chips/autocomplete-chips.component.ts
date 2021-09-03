@@ -22,7 +22,6 @@ export class AutocompleteChipsComponent implements OnInit {
   public autoCompleteOptions: Observable<string[]>;
   public separatorKeysCodes: number[] = [ENTER, COMMA];
   private timeoutSearch: any;
-  public elements: string[] = [];
 
 
   @Output() newElementEvent = new EventEmitter<string>();
@@ -31,6 +30,7 @@ export class AutocompleteChipsComponent implements OnInit {
   @Input() placeholder: string;
   @Input() label: string;
   @Input() service: GenericService;
+  @Input() elements: string[] = [];
 
   constructor() { }
 
