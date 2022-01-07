@@ -74,6 +74,10 @@ export class PostConsultComponent implements OnInit {
     this.selectedTab = index;
   }
 
+  selectedFileChanged(index: number) {
+    this.selectedTab = index;
+  }
+
 
   public downloadFile(file: PostFile): void {
     this.fileService.getOneBinary(file.id as number).subscribe(data => {
