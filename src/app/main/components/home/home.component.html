@@ -2,7 +2,7 @@
     <h1>Filtres</h1>
     <mat-card>
         <div fxLayout="row" fxLayoutAlign="space-between end">
-            <form fxFlex="50" [formGroup]="searchForm" fxLayout="column" fxFlexAlign="center" fxLayoutGap="1rem" (ngSubmit)="onSubmit()" style="min-width: 500px; max-width: 100%;">
+            <form [formGroup]="searchForm" fxLayout="column" fxFlexAlign="center" fxLayoutGap="1rem" (ngSubmit)="onSubmit()" style="width:clamp(50%, 600px, 800px) ">
                 <mat-form-field>
                     <mat-label>Créé par</mat-label>
                     <input type="text" placeholder="Saisir un pseudo" matInput formControlName="owner" [matAutocomplete]="autoCompleteOwner">
