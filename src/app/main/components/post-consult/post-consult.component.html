@@ -1,20 +1,20 @@
 <div class="actions" fxLayout="row" fxLayoutGap="1rem">
     <button mat-button mat-flat-button class="button-back" (click)="return()">
-        <mat-icon>keyboard_arrow_left</mat-icon>Retour
-    </button>
+    <mat-icon>keyboard_arrow_left</mat-icon>Retour
+  </button>
     <ng-container *ngIf="post && me">
         <button mat-button mat-flat-button class="button-edit" *ngIf="(post && me.id === post.owner.id) || me.profile.label === 'ADMIN' || me.profile.label === 'ARCHITECT'" (click)="editPost()">
-            <mat-icon>edit</mat-icon>Editer
-        </button>
+      <mat-icon>edit</mat-icon>Editer
+    </button>
         <button mat-button mat-flat-button class="button-validate" *ngIf="me.profile.label === 'ADMIN' || me.profile.label === 'ARCHITECT' && !post.validated" (click)="validatePost()">
-            <mat-icon>check</mat-icon>Valider
-        </button>
+      <mat-icon>check</mat-icon>Valider
+    </button>
         <button mat-button mat-flat-button class="button-unvalidate" *ngIf="me.profile.label === 'ADMIN' || me.profile.label === 'ARCHITECT' && post.validated" (click)="unvalidatePost()">
-            <mat-icon>cancel</mat-icon>Invalider
-        </button>
+      <mat-icon>cancel</mat-icon>Invalider
+    </button>
         <button mat-button mat-flat-button class="button-delete" *ngIf="me.profile.label === 'ADMIN'" (click)="deletePost()">
-            <mat-icon>delete</mat-icon>Supprimer
-        </button>
+      <mat-icon>delete</mat-icon>Supprimer
+    </button>
     </ng-container>
 </div>
 <div class=" divider">
@@ -27,8 +27,9 @@
     <section fxLayout="row" fxFlexAlign="center" fxLayoutGap="0.5rem">
         <h1>{{post.title}}</h1>
         <mat-icon class="icon-check" *ngIf="post.validated"> check_circle</mat-icon>
-        <span *ngIf="post.validated && post.validator" class="text-user">Validé par {{post.validator.username}} le {{post.validationDate | date :'short' :'UTC +1'
-            :'fr'}} </span>
+        <span *ngIf="post.validated && post.validator" class="text-user">Validé par {{post.validator.username}} le
+      {{post.validationDate | date :'short' :'UTC +1'
+      :'fr'}} </span>
     </section>
     <section>
         <mat-chip-list>
@@ -38,7 +39,9 @@
 
     <section>
         <h3>Description</h3>
-        <mat-card [innerHTML]="(post.description | nl2br) || 'Pas de description'"></mat-card>
+        <mat-card>
+            <markdown>{{post.description || 'Pas de description'}}</markdown>
+        </mat-card>
     </section>
     <section *ngIf="post && post.files && post.files.length>0">
         <h3>Fichiers</h3>
@@ -52,8 +55,8 @@
             </pre>
                 </div>
                 <button mat-button mat-raised-button *ngIf="file && file.type==='OTHER'" (click)="downloadFile(file)" class="button-download">
-                    Télécharger le fichier <span class="filename">{{file.path}}</span>
-                </button>
+          Télécharger le fichier <span class="filename">{{file.path}}</span>
+        </button>
             </mat-tab>
         </mat-tab-group>
     </section>

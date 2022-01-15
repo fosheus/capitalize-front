@@ -17,6 +17,7 @@ import { SpinnerDialog } from './dialogs/spinner-dialog/spinner.dialog';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { ValidatePostsComponent } from './components/validate-posts/validate-posts.component';
 import { ManageUsersComponent } from './components/manage-users/manage-users.component';
+import { MarkdownModule } from 'ngx-markdown';
 
 
 @NgModule({
@@ -38,7 +39,8 @@ import { ManageUsersComponent } from './components/manage-users/manage-users.com
     CommonModule,
     MainRoutingModule,
     SharedModule,
-    PostModule
+    PostModule,
+    MarkdownModule.forChild()
   ]
 })
 export class MainModule { }

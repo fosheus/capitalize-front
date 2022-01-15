@@ -30,6 +30,7 @@ import { FilterControlPipe } from './pipes/filter-control/filter-control.pipe';
 import { AutocompleteChipsComponent } from './components/autocomplete-chips/autocomplete-chips.component';
 import { FileTreeComponent } from './components/file-tree/file-tree.component';
 import { Nl2brPipe } from './pipes/nl2br/nl2br.pipe';
+import { MarkdownModule } from 'ngx-markdown';
 
 registerLocaleData(localeFr, 'fr');
 
@@ -62,6 +63,7 @@ const MATERIAL_MODULES = [
     HttpClientModule,
     FlexLayoutModule,
     HighlightModule,
+    MarkdownModule.forRoot(),
     ...MATERIAL_MODULES
   ],
   exports: [

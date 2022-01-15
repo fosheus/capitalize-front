@@ -27,6 +27,7 @@ export class PostDetailsComponent implements OnInit {
   private forbiddenCharactersFilename = ['/', '\\'];
   private forbiddenCharactersPath = ['<', '>', ':', '"', '\'', '|', '`', '?', '*', '..'];
 
+  public showPreview = false;
 
   public state: string;
   public post: Post;
@@ -41,7 +42,8 @@ export class PostDetailsComponent implements OnInit {
     title: new FormControl('', [Validators.required]),
     tags: new FormArray([], [Validators.required]),
     description: new FormControl('', [Validators.required]),
-    files: new FormArray([])
+    files: new FormArray([]),
+    showPreview: new FormControl(false)
   });
 
   get files(): FormArray {
@@ -51,9 +53,13 @@ export class PostDetailsComponent implements OnInit {
   get tags(): FormArray {
     return this.postForm.get('tags') as FormArray;
   }
+
+
   get serviceTag(): PostTagService {
     return this.tagService;
   }
+
+
   public TAG_LIMIT = 5;
 
   addTabForm = new FormGroup({
@@ -111,6 +117,7 @@ export class PostDetailsComponent implements OnInit {
           f.modified = false;
           return this.mapFileToFormGroup(f);
         })),
+        showPreview: new FormControl(false)
       });
       this.existingTags = post.tags.map(t => t.label);
 

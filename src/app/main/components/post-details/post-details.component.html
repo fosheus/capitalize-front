@@ -38,6 +38,9 @@
                 <textarea matInput formControlName="description" [matTextareaAutosize]="true" [matAutosizeMinRows]="10" style="background-color: #eeeeee; border-radius: 0.5rem;"></textarea>
             </mat-form-field>
 
+            <h3>Preview &nbsp;<input type="checkbox" formControlName="showPreview"></h3>
+            <markdown *ngIf="postForm && postForm.value && postForm.value.showPreview">{{post.description}}</markdown>
+
             <div>
                 <h3>Fichiers</h3>
                 <app-file-tree *ngIf="files.value" [files]="files.value" (fileClicked)="displaySelectedFile($event)">
