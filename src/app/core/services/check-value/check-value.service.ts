@@ -15,6 +15,10 @@ export class CheckValueService {
     return s !== null && s !== undefined && s !== '';
   }
 
+  hasBooleanValue(b: boolean | null): boolean {
+    return b === true || b === false;
+  }
+
   hasArrayValue(a: any[]): boolean {
     return a !== null && a !== undefined && a.length > 0;
   }

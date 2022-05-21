@@ -31,6 +31,7 @@ import { AutocompleteChipsComponent } from './components/autocomplete-chips/auto
 import { FileTreeComponent } from './components/file-tree/file-tree.component';
 import { Nl2brPipe } from './pipes/nl2br/nl2br.pipe';
 import { MarkdownModule } from 'ngx-markdown';
+import { MatSelectModule } from '@angular/material/select';
 
 registerLocaleData(localeFr, 'fr');
 
@@ -51,7 +52,8 @@ const MATERIAL_MODULES = [
   MatAutocompleteModule,
   MatMenuModule,
   MatPaginatorModule,
-  MatTreeModule
+  MatTreeModule,
+  MatSelectModule
 ];
 
 @NgModule({
