@@ -47,7 +47,9 @@
       </mat-form-field>
 
       <h3>Preview &nbsp;<input type="checkbox" formControlName="showPreview"></h3>
-      <markdown *ngIf="postForm && postForm.value && postForm.value.showPreview">{{post.description}}</markdown>
+      <markdown *ngIf="postForm && postForm.value && postForm.value.showPreview" [data]="description.value">
+
+      </markdown>
 
       <div>
         <h3>Fichiers</h3>

@@ -54,6 +54,11 @@ export class PostDetailsComponent implements OnInit {
     return this.postForm.get('tags') as FormArray;
   }
 
+  get description(): FormControl {
+    return this.postForm.get('description') as FormControl;
+  }
+
+
 
   get serviceTag(): PostTagService {
     return this.tagService;

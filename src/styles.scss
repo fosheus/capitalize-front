@@ -3,14 +3,17 @@
 html,
 body {
     height: 100vh;
+    margin: 0;
+}
+
+*,
+*:before,
+*:after {
+    box-sizing: border-box;
 }
 
 app-root {
     height: 100%;
-}
-
-body {
-    margin: 0;
 }
 
 .transparent .mat-dialog-container {
